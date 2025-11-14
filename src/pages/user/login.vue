@@ -1,22 +1,22 @@
 <script setup lang="tsx">
-import { onBeforeUnmount, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import {onBeforeUnmount, onMounted} from 'vue'
+import {useRoute} from 'vue-router'
 import BaseInput from "@/components/base/BaseInput.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import { APP_NAME } from "@/config/env.ts";
-import { useUserStore } from "@/stores/auth.ts";
-import { loginApi, LoginParams, registerApi, resetPasswordApi, sendCode } from "@/apis/user.ts";
-import { accountRules, codeRules, passwordRules, phoneRules } from "@/utils/validation.ts";
+import {APP_NAME} from "@/config/env.ts";
+import {useUserStore} from "@/stores/auth.ts";
+import {loginApi, LoginParams, registerApi, resetPasswordApi, sendCode} from "@/apis/user.ts";
+import {accountRules, codeRules, passwordRules, phoneRules} from "@/utils/validation.ts";
 import Toast from "@/components/base/toast/Toast.ts";
 import FormItem from "@/components/base/form/FormItem.vue";
 import Form from "@/components/base/form/Form.vue";
 import Notice from "@/pages/user/Notice.vue";
-import { FormInstance } from "@/components/base/form/types.ts";
-import { PASSWORD_CONFIG, PHONE_CONFIG } from "@/config/auth.ts";
-import { CodeType } from "@/types/types.ts";
+import {FormInstance} from "@/components/base/form/types.ts";
+import {PASSWORD_CONFIG, PHONE_CONFIG} from "@/config/auth.ts";
+import {CodeType} from "@/types/types.ts";
 import Code from "@/pages/user/Code.vue";
 import BackIcon from "@/components/BackIcon.vue";
-import { useNav } from "@/utils";
+import {useNav} from "@/utils";
 import Header from "@/components/Header.vue";
 
 // 状态管理
@@ -128,12 +128,13 @@ async function handleLogin() {
       let res = await loginApi(data as LoginParams)
       if (res.success) {
         userStore.setToken(res.data.token)
-        userStore.setUser(res.data.user)
         Toast.success('登录成功')
-        // 跳转到首页或用户中心
-        router.push('/')
+        router.back()
       } else {
         Toast.error(res.msg || '登录失败')
+        if (res.code === 499) {
+          loginType = 'code'
+        }
       }
     } catch (error) {
       Toast.error('登录失败，请重试')
@@ -295,28 +296,28 @@ onBeforeUnmount(() => {
             <!-- Tab切换 -->
             <div class="center gap-8 mb-6">
               <div
-                  class="center cp transition-colors"
-                  :class="loginType === 'code' ? 'link font-medium' : 'text-gray-600'"
-                  @click="loginType = 'code'"
+                class="center cp transition-colors"
+                :class="loginType === 'code' ? 'link font-medium' : 'text-gray-600'"
+                @click="loginType = 'code'"
               >
                 <div>
                   <span>验证码登录</span>
                   <div
-                      v-opacity="loginType === 'code'"
-                      class="mt-1 h-0.5 bg-blue-600"
+                    v-opacity="loginType === 'code'"
+                    class="mt-1 h-0.5 bg-blue-600"
                   ></div>
                 </div>
               </div>
               <div
-                  class="center cp transition-colors"
-                  :class="loginType === 'password' ? 'link font-medium' : 'text-gray-600'"
-                  @click="loginType = 'password'"
+                class="center cp transition-colors"
+                :class="loginType === 'password' ? 'link font-medium' : 'text-gray-600'"
+                @click="loginType = 'password'"
               >
                 <div>
                   <span>密码登录</span>
                   <div
-                      v-opacity="loginType === 'password'"
-                      class="mt-1 h-0.5 bg-blue-600"
+                    v-opacity="loginType === 'password'"
+                    class="mt-1 h-0.5 bg-blue-600"
                   ></div>
                 </div>
               </div>
@@ -324,10 +325,10 @@ onBeforeUnmount(() => {
 
             <!-- 验证码登录表单 -->
             <Form
-                v-if="loginType === 'code'"
-                ref="phoneLoginFormRef"
-                :rules="phoneLoginFormRules"
-                :model="phoneLoginForm">
+              v-if="loginType === 'code'"
+              ref="phoneLoginFormRef"
+              :rules="phoneLoginFormRules"
+              :model="phoneLoginForm">
               <FormItem prop="phone">
                 <BaseInput v-model="phoneLoginForm.phone"
                            type="tel"
@@ -340,11 +341,11 @@ onBeforeUnmount(() => {
               <FormItem prop="code">
                 <div class="flex gap-2">
                   <BaseInput
-                      v-model="phoneLoginForm.code"
-                      type="code"
-                      size="large"
-                      :max-length="PHONE_CONFIG.codeLength"
-                      placeholder="请输入验证码"
+                    v-model="phoneLoginForm.code"
+                    type="code"
+                    size="large"
+                    :max-length="PHONE_CONFIG.codeLength"
+                    placeholder="请输入验证码"
                   />
                   <Code :validate-field="() => phoneLoginFormRef.validateField('phone')"
                         :type="CodeType.Login"
@@ -355,10 +356,10 @@ onBeforeUnmount(() => {
 
             <!-- 密码登录表单 -->
             <Form
-                v-else
-                ref="loginForm2Ref"
-                :rules="loginForm2Rules"
-                :model="loginForm2">
+              v-else
+              ref="loginForm2Ref"
+              :rules="loginForm2Rules"
+              :model="loginForm2">
               <FormItem prop="account">
                 <BaseInput v-model="loginForm2.account"
                            type="email"
@@ -371,12 +372,12 @@ onBeforeUnmount(() => {
               <FormItem prop="password">
                 <div class="flex gap-2">
                   <BaseInput
-                      v-model="loginForm2.password"
-                      type="password"
-                      name="password"
-                      autocomplete="current-password"
-                      size="large"
-                      placeholder="请输入密码"
+                    v-model="loginForm2.password"
+                    type="password"
+                    name="password"
+                    autocomplete="current-password"
+                    size="large"
+                    placeholder="请输入密码"
                   />
                 </div>
               </FormItem>
@@ -387,10 +388,10 @@ onBeforeUnmount(() => {
             </Notice>
 
             <BaseButton
-                class="w-full"
-                size="large"
-                :loading="loading"
-                @click="handleLogin"
+              class="w-full"
+              size="large"
+              :loading="loading"
+              @click="handleLogin"
             >
               登录
             </BaseButton>
@@ -407,27 +408,27 @@ onBeforeUnmount(() => {
             <Header @click="switchMode('login')" title="注册新账号"/>
 
             <Form
-                ref="registerFormRef"
-                :rules="registerFormRules"
-                :model="registerForm">
+              ref="registerFormRef"
+              :rules="registerFormRules"
+              :model="registerForm">
               <FormItem prop="account">
                 <BaseInput
-                    v-model="registerForm.account"
-                    type="tel"
-                    name="username"
-                    autocomplete="username"
-                    size="large"
-                    placeholder="请输入手机号/邮箱地址"
+                  v-model="registerForm.account"
+                  type="tel"
+                  name="username"
+                  autocomplete="username"
+                  size="large"
+                  placeholder="请输入手机号/邮箱地址"
                 />
               </FormItem>
               <FormItem prop="code">
                 <div class="flex gap-2">
                   <BaseInput
-                      v-model="registerForm.code"
-                      type="code"
-                      size="large"
-                      placeholder="请输入验证码"
-                      :max-length="PHONE_CONFIG.codeLength"
+                    v-model="registerForm.code"
+                    type="code"
+                    size="large"
+                    placeholder="请输入验证码"
+                    :max-length="PHONE_CONFIG.codeLength"
                   />
                   <Code :validate-field="() => registerFormRef.validateField('account')"
                         :type="CodeType.Register"
@@ -436,22 +437,22 @@ onBeforeUnmount(() => {
               </FormItem>
               <FormItem prop="password">
                 <BaseInput
-                    v-model="registerForm.password"
-                    type="password"
-                    name="password"
-                    autocomplete="current-password"
-                    size="large"
-                    :placeholder="`请设置密码（${PASSWORD_CONFIG.minLength}-${PASSWORD_CONFIG.maxLength} 位）`"
+                  v-model="registerForm.password"
+                  type="password"
+                  name="password"
+                  autocomplete="current-password"
+                  size="large"
+                  :placeholder="`请设置密码（${PASSWORD_CONFIG.minLength}-${PASSWORD_CONFIG.maxLength} 位）`"
                 />
               </FormItem>
               <FormItem prop="confirmPassword">
                 <BaseInput
-                    v-model="registerForm.confirmPassword"
-                    type="password"
-                    name="password"
-                    autocomplete="new-password"
-                    size="large"
-                    placeholder="请再次输入密码"
+                  v-model="registerForm.confirmPassword"
+                  type="password"
+                  name="password"
+                  autocomplete="new-password"
+                  size="large"
+                  placeholder="请再次输入密码"
                 />
               </FormItem>
             </Form>
@@ -459,10 +460,10 @@ onBeforeUnmount(() => {
             <Notice/>
 
             <BaseButton
-                class="w-full"
-                size="large"
-                :loading="loading"
-                @click="handleRegister"
+              class="w-full"
+              size="large"
+              :loading="loading"
+              @click="handleRegister"
             >
               注册
             </BaseButton>
@@ -474,27 +475,27 @@ onBeforeUnmount(() => {
             <Header @click="switchMode('login')" title="重置密码"/>
 
             <Form
-                ref="forgotFormRef"
-                :rules="forgotFormRules"
-                :model="forgotForm">
+              ref="forgotFormRef"
+              :rules="forgotFormRules"
+              :model="forgotForm">
               <FormItem prop="account">
                 <BaseInput
-                    v-model="forgotForm.account"
-                    type="tel"
-                    name="username"
-                    autocomplete="username"
-                    size="large"
-                    placeholder="请输入手机号/邮箱地址"
+                  v-model="forgotForm.account"
+                  type="tel"
+                  name="username"
+                  autocomplete="username"
+                  size="large"
+                  placeholder="请输入手机号/邮箱地址"
                 />
               </FormItem>
               <FormItem prop="code">
                 <div class="flex gap-2">
                   <BaseInput
-                      v-model="forgotForm.code"
-                      type="code"
-                      size="large"
-                      placeholder="请输入验证码"
-                      :max-length="PHONE_CONFIG.codeLength"
+                    v-model="forgotForm.code"
+                    type="code"
+                    size="large"
+                    placeholder="请输入验证码"
+                    :max-length="PHONE_CONFIG.codeLength"
                   />
                   <Code :validate-field="() => forgotFormRef.validateField('account')"
                         :type="CodeType.ResetPwd"
@@ -503,31 +504,31 @@ onBeforeUnmount(() => {
               </FormItem>
               <FormItem prop="newPassword">
                 <BaseInput
-                    v-model="forgotForm.newPassword"
-                    type="password"
-                    name="password"
-                    autocomplete="new-password"
-                    size="large"
-                    :placeholder="`请输入新密码（${PASSWORD_CONFIG.minLength}-${PASSWORD_CONFIG.maxLength} 位）`"
+                  v-model="forgotForm.newPassword"
+                  type="password"
+                  name="password"
+                  autocomplete="new-password"
+                  size="large"
+                  :placeholder="`请输入新密码（${PASSWORD_CONFIG.minLength}-${PASSWORD_CONFIG.maxLength} 位）`"
                 />
               </FormItem>
               <FormItem prop="confirmPassword">
                 <BaseInput
-                    v-model="forgotForm.confirmPassword"
-                    type="password"
-                    name="password"
-                    autocomplete="new-password"
-                    size="large"
-                    placeholder="请再次输入新密码"
+                  v-model="forgotForm.confirmPassword"
+                  type="password"
+                  name="password"
+                  autocomplete="new-password"
+                  size="large"
+                  placeholder="请再次输入新密码"
                 />
               </FormItem>
             </Form>
 
             <BaseButton
-                class="w-full mt-2"
-                size="large"
-                :loading="loading"
-                @click="handleForgotPassword"
+              class="w-full mt-2"
+              size="large"
+              :loading="loading"
+              @click="handleForgotPassword"
             >
               重置密码
             </BaseButton>
@@ -538,16 +539,16 @@ onBeforeUnmount(() => {
         <div v-if="currentMode === 'login'" class="center flex-col bg-gray-100 rounded-xl px-12">
           <div class="relative w-40 h-40 bg-white rounded-xl overflow-hidden shadow-xl">
             <img
-                v-if="showWechatQR"
-                :src="wechatQRUrl"
-                alt="微信登录二维码"
-                class="w-full h-full"
-                :class="{ 'opacity-30': qrStatus === 'expired' }"
+              v-if="showWechatQR"
+              :src="wechatQRUrl"
+              alt="微信登录二维码"
+              class="w-full h-full"
+              :class="{ 'opacity-30': qrStatus === 'expired' }"
             />
             <!-- 扫描成功蒙层 -->
             <div
-                v-if="qrStatus === 'scanned'"
-                class="absolute left-0 top-0 w-full h-full center flex-col gap-space bg-white"
+              v-if="qrStatus === 'scanned'"
+              class="absolute left-0 top-0 w-full h-full center flex-col gap-space bg-white"
             >
               <IconFluentCheckmarkCircle20Filled class="color-green text-4xl"/>
               <div class="text-base text-gray-700 font-medium">扫描成功</div>
@@ -555,8 +556,8 @@ onBeforeUnmount(() => {
             </div>
             <!-- 取消登录蒙层 -->
             <div
-                v-if="qrStatus === 'cancelled'"
-                class="absolute left-0 top-0 w-full h-full center flex-col gap-space bg-white"
+              v-if="qrStatus === 'cancelled'"
+              class="absolute left-0 top-0 w-full h-full center flex-col gap-space bg-white"
             >
               <IconFluentErrorCircle20Regular class="color-red text-4xl"/>
               <div class="text-base text-gray-700 font-medium">你已取消此次登录</div>
@@ -565,12 +566,12 @@ onBeforeUnmount(() => {
             </div>
             <!-- 过期蒙层 -->
             <div
-                v-if=" qrStatus === 'expired'"
-                class="absolute top-0 left-0 right-0 bottom-0 bg-opacity-95 center backdrop-blur-sm"
+              v-if=" qrStatus === 'expired'"
+              class="absolute top-0 left-0 right-0 bottom-0 bg-opacity-95 center backdrop-blur-sm"
             >
               <IconFluentArrowClockwise20Regular
-                  @click="refreshQRCode"
-                  class="cp text-4xl"/>
+                @click="refreshQRCode"
+                class="cp text-4xl"/>
             </div>
           </div>
           <p class="mt-4 center gap-space">

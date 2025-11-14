@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useUserStore } from '@/stores/auth.ts'
-import { useRouter } from 'vue-router'
+import {onMounted} from 'vue'
+import {useUserStore} from '@/stores/auth.ts'
+import {useRouter} from 'vue-router'
 import BaseInput from '@/components/base/BaseInput.vue'
 import BasePage from "@/components/BasePage.vue";
-import { APP_NAME, EMAIL, GITHUB } from "@/config/env.ts";
+import {APP_NAME, EMAIL, GITHUB} from "@/config/env.ts";
 import BaseButton from "@/components/BaseButton.vue";
-import { PASSWORD_CONFIG, PHONE_CONFIG } from "@/config/auth.ts";
-import { changeEmailApi, changePhoneApi, setPassword, updateUserInfoApi } from "@/apis/user.ts";
+import {PASSWORD_CONFIG, PHONE_CONFIG} from "@/config/auth.ts";
+import {changeEmailApi, changePhoneApi, setPassword, updateUserInfoApi, User} from "@/apis/user.ts";
 import BaseIcon from "@/components/BaseIcon.vue";
-import { CodeType } from "@/types/types.ts";
+import {CodeType} from "@/types/types.ts";
 import FormItem from "@/components/base/form/FormItem.vue";
 import Form from "@/components/base/form/Form.vue";
-import { FormInstance } from "@/components/base/form/types.ts";
-import { codeRules, emailRules, passwordRules, phoneRules } from "@/utils/validation.ts";
-import { _dateFormat, cloneDeep } from "@/utils";
+import {FormInstance} from "@/components/base/form/types.ts";
+import {codeRules, emailRules, passwordRules, phoneRules} from "@/utils/validation.ts";
+import {_dateFormat, cloneDeep} from "@/utils";
 import Toast from "@/components/base/toast/Toast.ts";
 import Code from "@/pages/user/Code.vue";
-import { MessageBox } from "@/utils/MessageBox.tsx";
+import {MessageBox} from "@/utils/MessageBox.tsx";
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -234,14 +234,11 @@ function changePwd() {
   })
 }
 
+const member = $computed<User['member']>(() => userStore.user?.member ?? {} as any)
 
-// 订阅相关
-const memberEndtime = $computed(() => {
-  if (userStore.user?.member) {
-    if (userStore.user?.member?.endTime === -1) return '永久'
-    else return _dateFormat(userStore.user?.member?.endTime)
-  }
-  return ''
+const memberEndDate = $computed(() => {
+  if (member?.endDate === null) return '永久'
+  return member?.endDate
 })
 
 function subscribe() {
@@ -266,9 +263,9 @@ function subscribe() {
         <p class="">登录，开启您的学习之旅</p>
         <div>保存进度、同步数据、解锁个性化内容</div>
         <BaseButton
-            @click="router.push('/login')"
-            size="large"
-            class="w-full mt-4"
+          @click="router.push('/login')"
+          size="large"
+          class="w-full mt-4"
         >
           登录
         </BaseButton>
@@ -302,16 +299,16 @@ function subscribe() {
         </div>
         <div v-if="showChangeUsername">
           <Form
-              ref="changeUsernameFormRef"
-              :rules="changeUsernameFormRules"
-              :model="changeUsernameForm">
+            ref="changeUsernameFormRef"
+            :rules="changeUsernameFormRules"
+            :model="changeUsernameForm">
             <FormItem prop="username">
               <BaseInput
-                  v-model="changeUsernameForm.username"
-                  type="text"
-                  size="large"
-                  placeholder="请输入用户名"
-                  autofocus
+                v-model="changeUsernameForm.username"
+                type="text"
+                size="large"
+                placeholder="请输入用户名"
+                autofocus
               >
                 <template #preIcon>
                   <IconFluentPerson20Regular class="text-base"/>
@@ -342,17 +339,17 @@ function subscribe() {
         </div>
         <div v-if="showChangePhone">
           <Form
-              ref="changePhoneFormRef"
-              :rules="changePhoneFormRules"
-              :model="changePhoneForm">
+            ref="changePhoneFormRef"
+            :rules="changePhoneFormRules"
+            :model="changePhoneForm">
             <FormItem prop="oldCode" v-if="userStore.user?.phone">
               <div class="flex gap-2">
                 <BaseInput
-                    v-model="changePhoneForm.oldCode"
-                    type="code"
-                    autofocus
-                    placeholder="请输入原手机号验证码"
-                    :max-length="PHONE_CONFIG.codeLength"
+                  v-model="changePhoneForm.oldCode"
+                  type="code"
+                  autofocus
+                  placeholder="请输入原手机号验证码"
+                  :max-length="PHONE_CONFIG.codeLength"
                 />
                 <Code :validate-field="() => true"
                       :type="CodeType.ChangePhoneOld"
@@ -361,19 +358,19 @@ function subscribe() {
             </FormItem>
             <FormItem prop="phone">
               <BaseInput
-                  v-model="changePhoneForm.phone"
-                  type="tel"
-                  size="large"
-                  placeholder="请输入新手机号"
+                v-model="changePhoneForm.phone"
+                type="tel"
+                size="large"
+                placeholder="请输入新手机号"
               />
             </FormItem>
             <FormItem prop="code">
               <div class="flex gap-2">
                 <BaseInput
-                    v-model="changePhoneForm.code"
-                    type="code"
-                    placeholder="请输入新手机号验证码"
-                    :max-length="PHONE_CONFIG.codeLength"
+                  v-model="changePhoneForm.code"
+                  type="code"
+                  placeholder="请输入新手机号验证码"
+                  :max-length="PHONE_CONFIG.codeLength"
                 />
                 <Code :validate-field="() => changePhoneFormRef.validateField('phone')"
                       :type="CodeType.ChangePhoneNew"
@@ -382,10 +379,10 @@ function subscribe() {
             </FormItem>
             <FormItem prop="pwd" v-if="!userStore.user?.phone">
               <BaseInput
-                  v-model="changePhoneForm.pwd"
-                  type="password"
-                  size="large"
-                  placeholder="请输入原密码"
+                v-model="changePhoneForm.pwd"
+                type="password"
+                size="large"
+                placeholder="请输入原密码"
               />
             </FormItem>
           </Form>
@@ -418,25 +415,25 @@ function subscribe() {
         </div>
         <div v-if="showChangeEmail">
           <Form
-              ref="changeEmailFormRef"
-              :rules="changeEmailFormRules"
-              :model="changeEmailForm">
+            ref="changeEmailFormRef"
+            :rules="changeEmailFormRules"
+            :model="changeEmailForm">
             <FormItem prop="email">
               <BaseInput
-                  v-model="changeEmailForm.email"
-                  type="email"
-                  size="large"
-                  placeholder="请输入邮箱地址"
-                  autofocus
+                v-model="changeEmailForm.email"
+                type="email"
+                size="large"
+                placeholder="请输入邮箱地址"
+                autofocus
               />
             </FormItem>
             <FormItem prop="code">
               <div class="flex gap-2">
                 <BaseInput
-                    v-model="changeEmailForm.code"
-                    type="code"
-                    placeholder="请输入验证码"
-                    :max-length="PHONE_CONFIG.codeLength"
+                  v-model="changeEmailForm.code"
+                  type="code"
+                  placeholder="请输入验证码"
+                  :max-length="PHONE_CONFIG.codeLength"
                 />
                 <Code :validate-field="() => changeEmailFormRef.validateField('email')"
                       :type="CodeType.ChangeEmail"
@@ -445,10 +442,10 @@ function subscribe() {
             </FormItem>
             <FormItem prop="pwd" v-if="userStore.user?.hasPwd">
               <BaseInput
-                  v-model="changePwdForm.pwd"
-                  type="password"
-                  size="large"
-                  placeholder="请输入密码"
+                v-model="changePwdForm.pwd"
+                type="password"
+                size="large"
+                placeholder="请输入密码"
               />
             </FormItem>
           </Form>
@@ -467,42 +464,42 @@ function subscribe() {
             <div class="text-xs">在此输入密码</div>
           </div>
           <IconFluentChevronLeft28Filled
-              class="transition-transform"
-              :class="['rotate-270','rotate-180'][showChangePwd?0:1]"/>
+            class="transition-transform"
+            :class="['rotate-270','rotate-180'][showChangePwd?0:1]"/>
         </div>
         <div v-if="showChangePwd">
           <Form
-              ref="changePwdFormRef"
-              :rules="changePwdFormRules"
-              :model="changePwdForm">
+            ref="changePwdFormRef"
+            :rules="changePwdFormRules"
+            :model="changePwdForm">
             <FormItem prop="oldPwd" v-if="userStore.user.hasPwd">
               <BaseInput
-                  v-model="changePwdForm.oldPwd"
-                  placeholder="旧密码"
-                  type="password"
-                  size="large"
-                  autofocus
+                v-model="changePwdForm.oldPwd"
+                placeholder="旧密码"
+                type="password"
+                size="large"
+                autofocus
               />
             </FormItem>
 
             <FormItem prop="newPwd">
               <BaseInput
-                  v-model="changePwdForm.newPwd"
-                  type="password"
-                  size="large"
-                  :placeholder="`请输入新密码（${PASSWORD_CONFIG.minLength}-${PASSWORD_CONFIG.maxLength}位）`"
-                  :min="PASSWORD_CONFIG.minLength"
-                  :max="PASSWORD_CONFIG.maxLength"
+                v-model="changePwdForm.newPwd"
+                type="password"
+                size="large"
+                :placeholder="`请输入新密码（${PASSWORD_CONFIG.minLength}-${PASSWORD_CONFIG.maxLength}位）`"
+                :min="PASSWORD_CONFIG.minLength"
+                :max="PASSWORD_CONFIG.maxLength"
               />
             </FormItem>
             <FormItem prop="confirmPwd">
               <BaseInput
-                  v-model="changePwdForm.confirmPwd"
-                  type="password"
-                  size="large"
-                  placeholder="请再次输入新密码"
-                  :min="PASSWORD_CONFIG.minLength"
-                  :max="PASSWORD_CONFIG.maxLength"
+                v-model="changePwdForm.confirmPwd"
+                type="password"
+                size="large"
+                placeholder="请再次输入新密码"
+                :min="PASSWORD_CONFIG.minLength"
+                :max="PASSWORD_CONFIG.maxLength"
               />
             </FormItem>
           </Form>
@@ -537,9 +534,9 @@ function subscribe() {
         <!-- Logout Button -->
         <div class="center w-full mt-4">
           <BaseButton
-              @click="handleLogout"
-              size="large"
-              class="w-[80%]"
+            @click="handleLogout"
+            size="large"
+            class="w-[80%]"
           >
             登出
           </BaseButton>
@@ -565,15 +562,15 @@ function subscribe() {
           <template v-if="userStore.user?.member">
             <div>
               <div class="mb-1">当前计划</div>
-              <div class="text-base font-bold">{{ userStore.user?.member?.levelDesc }}</div>
+              <div class="text-base font-bold">{{ member?.levelDesc }}</div>
             </div>
 
             <div>
               <div class="mb-1">状态</div>
               <div class="flex items-center gap-2">
-                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span class="text-base font-medium text-green-700">
-                {{ userStore.user?.member?.active ? '使用中' : '已过期' }}
+                <div class="w-2 h-2 rounded-full"  :class="member?.active ?'bg-green-500':'bg-red-500'"></div>
+                <span class="text-base font-medium" :class="member?.active ?'text-green-700':'text-red-700'">
+                {{ member?.status }}
               </span>
               </div>
             </div>
@@ -582,7 +579,7 @@ function subscribe() {
               <div class="mb-1">到期时间</div>
               <div class="flex items-center gap-2">
                 <IconFluentCalendarDate20Regular class="text-lg"/>
-                <span class="text-base font-medium">{{ memberEndtime }}</span>
+                <span class="text-base font-medium">{{ memberEndDate }}</span>
               </div>
             </div>
 
@@ -590,27 +587,21 @@ function subscribe() {
               <div class="mb-1">自动续费</div>
               <div class="flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full"
-                     :class="userStore.user?.member?.autoRenew ? 'bg-blue-500' : 'bg-gray-400'"
+                     :class="member?.autoRenew ? 'bg-blue-500' : 'bg-gray-400'"
                 ></div>
                 <span class="text-base font-medium"
-                      :class="userStore.user?.member?.autoRenew ? 'text-blue-700' : 'text-gray-600'">
-                    {{ userStore.user?.member?.autoRenew ? '已开启' : '已关闭' }}
+                      :class="member?.autoRenew ? 'text-blue-700' : 'text-gray-600'">
+                    {{ member?.autoRenew ? '已开启' : '已关闭' }}
                   </span>
-              </div>
-            </div>
-
-            <div>
-              <div class="mb-1">付款方式</div>
-              <div class="flex items-center gap-2">
-                <IconFluentPayment20Regular class="text-lg"/>
-                <span class="text-base font-medium">{{ userStore.user?.member?.payMethodDesc }}</span>
               </div>
             </div>
           </template>
 
           <div class="text-base" v-else>当前无订阅</div>
 
-          <BaseButton class="w-full" size="large" @click="subscribe">{{ userStore.user?.member ? '管理订阅' : '会员介绍' }}
+          <BaseButton class="w-full" size="large" @click="subscribe">{{
+              userStore.user?.member ? '管理订阅' : '会员介绍'
+            }}
           </BaseButton>
         </div>
       </div>

@@ -13,6 +13,7 @@ import Setting from "@/pages/setting/Setting.vue";
 import Login from "@/pages/user/login.vue";
 import User from "@/pages/user/User.vue";
 import VipIntro from "@/pages/user/VipIntro.vue";
+import Pay from "@/pages/user/Pay.vue";
 // import { useAuthStore } from "@/stores/auth.ts";
 
 export const routes: RouteRecordRaw[] = [
@@ -38,6 +39,7 @@ export const routes: RouteRecordRaw[] = [
       {path: 'login', component: Login},
       {path: 'user', component: User},
       {path: 'vip', component: VipIntro},
+      {path: 'pay', component: Pay},
     ]
   },
   {path: '/batch-edit-article', component: () => import("@/pages/article/BatchEditArticlePage.vue")},

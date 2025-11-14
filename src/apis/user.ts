@@ -18,13 +18,11 @@ export interface User {
   avatar?: string,
   hasPwd?: boolean,
   member: {
-    level: number,
     levelDesc: string,
+    status: string,
     active: boolean,
-    endTime: number,
+    endDate: number,
     autoRenew: boolean,
-    payMethod: number,
-    payMethodDesc: string,
   }
 }
 
@@ -67,7 +65,7 @@ export interface WechatLoginParams {
 }
 
 export function loginApi(params: LoginParams) {
-  return http<User>('user/login', params, null, 'post')
+  return http<{ token:string }>('user/login', params, null, 'post')
 }
 
 export function registerApi(params: RegisterParams) {

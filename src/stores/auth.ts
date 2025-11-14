@@ -13,6 +13,8 @@ export const useUserStore = defineStore('user', () => {
   // 设置token
   const setToken = (newToken: string) => {
     AppEnv.TOKEN = newToken
+    AppEnv.IS_LOGIN = !!AppEnv.TOKEN
+    AppEnv.CAN_REQUEST = AppEnv.IS_LOGIN && AppEnv.IS_OFFICIAL
     localStorage.setItem('token', newToken)
   }
 
