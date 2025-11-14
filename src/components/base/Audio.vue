@@ -91,6 +91,7 @@ const toggleMute = () => {
     volume.value = 1;
     audioRef.value.volume = 1;
   }
+  emit('update-volume', Math.floor(volume.value * 100));
 };
 
 const changePlaybackRate = () => {
@@ -324,7 +325,7 @@ const handleVolumeMouseDown = (event: MouseEvent) => {
     }
     // 提交更新音量事件
     emit('update-volume', Math.floor(volume.value * 100));
-    
+
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
   };
