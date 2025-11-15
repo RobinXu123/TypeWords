@@ -57,6 +57,7 @@ declare module 'vue' {
     IconFluentCheckmarkCircle16Regular: typeof import('~icons/fluent/checkmark-circle16-regular')['default']
     IconFluentCheckmarkCircle20Filled: typeof import('~icons/fluent/checkmark-circle20-filled')['default']
     IconFluentCheckmarkCircle20Regular: typeof import('~icons/fluent/checkmark-circle20-regular')['default']
+    IconFluentChevronDown20Regular: typeof import('~icons/fluent/chevron-down20-regular')['default']
     IconFluentChevronLeft20Filled: typeof import('~icons/fluent/chevron-left20-filled')['default']
     IconFluentChevronLeft28Filled: typeof import('~icons/fluent/chevron-left28-filled')['default']
     IconFluentCrown20Regular: typeof import('~icons/fluent/crown20-regular')['default']
