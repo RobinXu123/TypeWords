@@ -1,9 +1,9 @@
-import {defineStore} from "pinia"
-import {checkAndUpgradeSaveSetting, cloneDeep} from "@/utils";
-import {DefaultShortcutKeyMap, WordPracticeMode, WordPracticeType} from "@/types/types.ts";
-import {get} from "idb-keyval";
-import {CAN_REQUEST, SAVE_SETTING_KEY} from "@/config/env.ts";
-import {getSetting} from "@/apis";
+import { defineStore } from "pinia"
+import { checkAndUpgradeSaveSetting, cloneDeep } from "@/utils";
+import { DefaultShortcutKeyMap, WordPracticeMode, WordPracticeType } from "@/types/types.ts";
+import { get } from "idb-keyval";
+import { AppEnv, SAVE_SETTING_KEY } from "@/config/env.ts";
+import { getSetting } from "@/apis";
 
 export interface SettingState {
   soundType: string,

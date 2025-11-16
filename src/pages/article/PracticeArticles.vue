@@ -133,7 +133,7 @@ async function init() {
   }
 }
 const initAudio = () => {
-  nextTick(() => {
+  _nextTick(() => {
     audioRef.volume = settingStore.articleSoundVolume / 100
     audioRef.playbackRate = settingStore.articleSoundSpeed
   })
@@ -440,7 +440,7 @@ onUnmounted(() => {
 
 const { playSentenceAudio } = usePlaySentenceAudio()
 function play2(e) {
-  nextTick(() => {
+  _nextTick(() => {
     if (settingStore.articleSound || e.handle) {
       playSentenceAudio(e.sentence, audioRef)
     }
