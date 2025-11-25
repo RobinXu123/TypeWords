@@ -76,6 +76,7 @@ export interface Article {
   audioSrc: string,
   audioFileId: string,
   lrcPosition: number[][],
+  nameList: string[],
   questions: {
     stem: string,
     options: string[],

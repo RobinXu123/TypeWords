@@ -46,6 +46,7 @@ export function getDefaultArticle(val: Partial<Article> = {}): Article {
     audioFileId: '',
     lrcPosition: [],
     questions: [],
+    nameList:[],
     ...cloneDeep(val)
   }
 }

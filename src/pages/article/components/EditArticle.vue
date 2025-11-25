@@ -1,27 +1,28 @@
 <script setup lang="ts">
 
-import {Article, Sentence, TranslateEngine} from "@/types/types.ts";
+import { Article, Sentence, TranslateEngine } from "@/types/types.ts";
 import BaseButton from "@/components/BaseButton.vue";
 import EditAbleText from "@/components/EditAbleText.vue";
-import {getNetworkTranslate, getSentenceAllText, getSentenceAllTranslateText} from "@/hooks/translate.ts";
-import {genArticleSectionData, splitCNArticle2, splitEnArticle2, usePlaySentenceAudio} from "@/hooks/article.ts";
-import {_nextTick, _parseLRC, cloneDeep, last} from "@/utils";
-import {defineAsyncComponent, watch} from "vue";
+import { getNetworkTranslate, getSentenceAllText, getSentenceAllTranslateText } from "@/hooks/translate.ts";
+import { genArticleSectionData, splitCNArticle2, splitEnArticle2, usePlaySentenceAudio } from "@/hooks/article.ts";
+import { _nextTick, _parseLRC, cloneDeep, last } from "@/utils";
+import { defineAsyncComponent, watch } from "vue";
 import Empty from "@/components/Empty.vue";
 import Toast from '@/components/base/toast/Toast.ts'
 import * as Comparison from "string-comparison"
 import BaseIcon from "@/components/BaseIcon.vue";
-import {getDefaultArticle} from "@/types/func.ts";
+import { getDefaultArticle } from "@/types/func.ts";
 import copy from "copy-to-clipboard";
-import {Option, Select} from "@/components/base/select";
+import { Option, Select } from "@/components/base/select";
 import Tooltip from "@/components/base/Tooltip.vue";
 import InputNumber from "@/components/base/InputNumber.vue";
-import {nanoid} from "nanoid";
-import {update} from "idb-keyval";
+import { nanoid } from "nanoid";
+import { update } from "idb-keyval";
 import ArticleAudio from "@/pages/article/components/ArticleAudio.vue";
 import BaseInput from "@/components/base/BaseInput.vue";
 import Textarea from "@/components/base/Textarea.vue";
 import { LOCAL_FILE_KEY } from "@/config/env.ts";
+import PopConfirm from "@/components/PopConfirm.vue";
 
 const Dialog = defineAsyncComponent(() => import('@/components/dialog/Dialog.vue'))
 
@@ -52,7 +53,7 @@ const TranslateEngineOptions = [
 let editArticle = $ref<Article>(getDefaultArticle())
 
 watch(() => props.article, val => {
-  editArticle = cloneDeep(val)
+  editArticle = getDefaultArticle(val)
   progress = 0
   failCount = 0
   apply(false)
@@ -230,8 +231,30 @@ let editSentence = $ref<Sentence>({} as any)
 let preSentence = $ref<Sentence>({} as any)
 let showEditAudioDialog = $ref(false)
 let showAudioDialog = $ref(false)
+let showNameDialog = $ref(false)
 let sentenceAudioRef = $ref<HTMLAudioElement>()
 let audioRef = $ref<HTMLAudioElement>()
+
+let nameListRef = $ref<string[]>([])
+watch(() => showNameDialog, (v) => {
+  if (v) {
+    nameListRef = cloneDeep(Array.isArray(editArticle.nameList) ? editArticle.nameList : [])
+    nameListRef.push('')
+  }
+})
+
+function addName() {
+  nameListRef.push('')
+}
+
+function removeName(i: number) {
+  nameListRef.splice(i, 1)
+}
+
+function saveNameList() {
+  const cleaned = Array.from(new Set(nameListRef.map(s => (s ?? '').trim()).filter(Boolean)))
+  editArticle.nameList = cleaned as any
+}
 
 function handleShowEditAudioDialog(val: Sentence, i: number, j: number) {
   showEditAudioDialog = true
@@ -307,7 +330,7 @@ function setStartTime(val: Sentence, i: number, j: number) {
     val.audioPosition[0] = Number(Number(audioRef.currentTime).toFixed(2))
   }
   if (val.audioPosition[0] > val.audioPosition[1] && val.audioPosition[1] !== 0) {
-    val.audioPosition[1] = val.audioPosition[0]
+    val.audioPosition[1] = 0
   }
 }
 
@@ -326,7 +349,15 @@ function setStartTime(val: Sentence, i: number, j: number) {
             placeholder="请填写原文标题"
         />
       </div>
-      <div class="">正文：<span class="text-sm color-gray">一行一句，段落间空一行</span></div>
+      <div class="flex justify-between">
+        <span>正文：<span class="text-sm color-gray">一行一句，段落间空一行</span></span>
+        <Tooltip title="配置人名之后，在练习时自动忽略(可选，默认开启)">
+          <div @click="showNameDialog = true" class="center gap-1 cp">
+            <span>人名配置</span>
+            <IconFluentSettings20Regular/>
+          </div>
+        </Tooltip>
+      </div>
       <Textarea v-model="editArticle.text"
                 class="h-full"
                 :disabled="![100,0].includes(progress)"
@@ -609,6 +640,31 @@ function setStartTime(val: Sentence, i: number, j: number) {
         </div>
       </div>
     </Dialog>
+
+    <Dialog title="人名管理"
+            v-model="showNameDialog"
+            :footer="true"
+            @close="showNameDialog = false"
+            @ok="saveNameList"
+    >
+      <div class="p-4 pt-0 color-main w-150 flex flex-col gap-3">
+        <div class="flex justify-between items-center">
+          <div class="text-base">配置需要忽略的人名，练习时自动忽略这些名称(可选，默认开启)</div>
+          <BaseButton type="info" @click="addName">添加名称</BaseButton>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center gap-2" v-for="(name,i) in nameListRef" :key="i">
+            <BaseInput v-model="nameListRef[i]"
+                       placeholder="输入名称"
+                       size="large"
+                       :autofocus="i===nameListRef.length-1"/>
+            <BaseButton type="info" @click="removeName(i)">删除</BaseButton>
+          </div>
+        </div>
+      </div>
+    </Dialog>
+
   </div>
 </template>
 
@@ -703,65 +759,65 @@ function setStartTime(val: Sentence, i: number, j: number) {
     flex-direction: column;
     padding: 0.5rem;
     gap: 1rem;
-    
+
     .row {
       width: 100%;
       flex: none;
-      
+
       &:nth-child(3) {
         flex: none;
       }
-      
+
       .title {
         font-size: 1.2rem;
       }
-      
+
       // 表单元素优化
       .base-input, .base-textarea {
         width: 100%;
         font-size: 16px; // 防止iOS自动缩放
       }
-      
+
       .base-textarea {
         min-height: 150px;
         max-height: 30vh;
       }
-      
+
       // 按钮组优化
       .flex.gap-2 {
         flex-wrap: wrap;
         gap: 0.5rem;
-        
+
         .base-button {
           min-height: 44px;
           flex: 1;
           min-width: 120px;
         }
       }
-      
+
       // 文章翻译区域优化
       .article-translate {
         .section {
           margin-bottom: 1rem;
-          
+
           .section-title {
             font-size: 1rem;
             padding: 0.4rem;
           }
-          
+
           .sentence {
             flex-direction: column;
             gap: 0.5rem;
             padding: 0.4rem;
-            
+
             .flex-\[7\] {
               width: 100%;
             }
-            
+
             .flex-\[2\] {
               width: 100%;
               justify-content: flex-start;
-              
+
               .flex.justify-end.gap-2 {
                 justify-content: flex-start;
                 flex-wrap: wrap;
@@ -771,17 +827,17 @@ function setStartTime(val: Sentence, i: number, j: number) {
           }
         }
       }
-      
+
       // 选项区域优化
       .options {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
-        
+
         .status {
           font-size: 0.9rem;
         }
-        
+
         .warning, .success {
           font-size: 1rem;
         }
@@ -793,12 +849,12 @@ function setStartTime(val: Sentence, i: number, j: number) {
 @media (max-width: 480px) {
   .content {
     padding: 0.3rem;
-    
+
     .row {
       .base-textarea {
         min-height: 120px;
       }
-      
+
       .flex.gap-2 {
         .base-button {
           min-width: 100px;

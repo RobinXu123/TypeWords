@@ -274,7 +274,7 @@ function next() {
 
 <style scoped lang="scss">
 .dict-detail-card {
-  min-height: calc(100vh - 3rem);
+  height: calc(100vh - 3rem);
 }
 
 .dict-header {
@@ -287,7 +287,7 @@ function next() {
 
 @media (max-width: 768px) {
   .dict-detail-card {
-    min-height: calc(100vh - 2rem);
+   height: calc(100vh - 2rem);
   }
 
   .dict-header {

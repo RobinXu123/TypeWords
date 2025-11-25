@@ -568,7 +568,7 @@ function importOldData() {
           </SettingItem>
 
           <div class="line"></div>
-          <SettingItem title="输入时忽略符号/数字">
+          <SettingItem title="输入时忽略符号/数字/人名">
             <Switch v-model="settingStore.ignoreSymbol"/>
           </SettingItem>
         </div>
@@ -631,6 +631,22 @@ function importOldData() {
         </div>
 
         <div v-if="tabIndex === 5">
+          <div class="log-item">
+            <div class="mb-2">
+              <div>
+                <div>日期：2025/11/25</div>
+                <div>内容：文章练习新增人名忽略功能（新概念一已全部适配），上传了新概念（一）1-18 音频</div>
+              </div>
+            </div>
+          </div>
+          <div class="log-item">
+            <div class="mb-2">
+              <div>
+                <div>日期：2025/11/23</div>
+                <div>内容：优化练习完成结算界面，新增分享功能</div>
+              </div>
+            </div>
+          </div>
           <div class="log-item">
             <div class="mb-2">
               <div>

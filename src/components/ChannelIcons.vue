@@ -157,9 +157,7 @@ const sentence = $computed(() => {
   </div>
 
   <!-- 学习总结分享图片生成对话框 -->
-  <Dialog
-      v-model="showShareDialog"
-      title="分享" :close-on-click-bg="true" custom-class="!max-w-4xl !w-auto">
+  <Dialog v-model="showShareDialog" title="分享">
     <div class="flex min-w-160 max-w-200 p-6 pt-0 gap-space">
       <!-- 左侧：海报预览区域 -->
       <div ref="posterEl" class="flex-1 border-r border-gray-200 bg-gray-100 rounded-xl  overflow-hidden relative">

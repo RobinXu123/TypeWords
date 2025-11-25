@@ -138,8 +138,7 @@ calcWeekList(); // 新增：计算本周学习记录
       :close-on-click-bg="false"
       :header="false"
       :keyboard="false"
-      :show-close="false"
-      class="statistics-modal">
+      :show-close="false">
     <div class="p-8 pr-3 bg-[var(--bg-card-primary)] rounded-2xl space-y-6">
       <!-- Header Section -->
       <div class="text-center relative">
