@@ -72,12 +72,6 @@ export const useBaseStore = defineStore('base', {
     allIgnoreWords() {
       return this.known.words.map((v: Word) => v.word.toLowerCase()).concat(this.simpleWords.map((v: string) => v.toLowerCase()))
     },
-    currentStudyWordDict(): Dict {
-      if (this.word.studyIndex >= 0) {
-        return this.word.bookList[this.word.studyIndex] ?? getDefaultDict()
-      }
-      return getDefaultDict()
-    },
     sdict(): Dict {
       if (this.word.studyIndex >= 0) {
         return this.word.bookList[this.word.studyIndex] ?? getDefaultDict()
@@ -92,9 +86,6 @@ export const useBaseStore = defineStore('base', {
       if (!this.sdict.length) return 0
       if (!this.sdict.perDayStudyNumber) return 0
       return Math.ceil((this.sdict.length - this.sdict.lastLearnIndex) / this.sdict.perDayStudyNumber)
-    },
-    currentBook(): Dict {
-      return this.article.bookList[this.article.studyIndex] ?? {}
     },
     sbook(): Dict {
       return this.article.bookList[this.article.studyIndex] ?? {}

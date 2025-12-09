@@ -280,7 +280,7 @@ let isNewHost = $ref(window.location.host === Host)
         </div>
         <BaseButton size="large" class="w-full md:w-auto"
                     @click="startStudy"
-                    :disabled="!base.currentBook.name">
+                    :disabled="!base.sbook.name">
           <div class="flex items-center gap-2 justify-center w-full">
             <span class="line-height-[2]">{{ isSaveData ? '继续学习' : '开始学习' }}</span>
             <IconFluentArrowCircleRight16Regular class="text-xl"/>

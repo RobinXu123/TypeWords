@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, provide, ref, watch } from "vue";
+import {onMounted, onUnmounted, provide, ref, watch} from "vue";
 
 import Statistics from "@/pages/word/Statistics.vue";
 import { emitter, EventKey, useEvents } from "@/utils/eventBus.ts";
@@ -47,6 +47,8 @@ let showConflictNotice = $ref(false)
 let allWrongWords = new Set()
 let showStatDialog = $ref(false)
 let loading = $ref(false)
+let timer = $ref(0)
+let isFocus = true
 let taskWords = $ref<TaskWords>({
   new: [],
   review: [],
@@ -110,6 +112,13 @@ onMounted(() => {
   } else {
     showConflictNotice = true
   }
+  document.addEventListener('visibilitychange', () => {
+    isFocus = !document.hidden
+  })
+})
+
+onUnmounted(() => {
+  timer && clearInterval(timer)
 })
 
 watchOnce(() => data.words.length, (newVal, oldVal) => {
@@ -220,8 +229,17 @@ function initData(initVal: TaskWords, init: boolean = false) {
     statStore.startDate = Date.now()
     statStore.inputWordNumber = 0
     statStore.wrong = 0
+    statStore.spend = 0
     isTypingWrongWord.value = false
   }
+  clearInterval(timer)
+  timer = setInterval(() => {
+    if (isFocus) {
+      statStore.spend += 1000
+      savePracticeData()
+    }
+  }, 1000)
+
 }
 
 const word = $computed<Word>(() => {

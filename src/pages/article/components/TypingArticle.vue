@@ -739,7 +739,7 @@ const currentPractice = inject('currentPractice', [])
         @click="emit('replay')">重新练习
       </BaseButton>
       <BaseButton
-        v-if="store.currentBook.lastLearnIndex < store.currentBook.articles.length - 1"
+        v-if="store.sbook.lastLearnIndex < store.sbook.articles.length - 1"
         @click="emit('next')">下一篇
       </BaseButton>
     </div>
