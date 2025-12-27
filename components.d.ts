@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     About: typeof import('./src/components/About.vue')['default']
     ArticleList: typeof import('./src/components/list/ArticleList.vue')['default']
+    ArticleSetting: typeof import('./src/components/setting/ArticleSetting.vue')['default']
     ArticleSettting: typeof import('./src/components/setting/ArticleSettting.vue')['default']
     Audio: typeof import('./src/components/base/Audio.vue')['default']
     BackIcon: typeof import('./src/components/BackIcon.vue')['default']
@@ -50,6 +51,7 @@ declare module 'vue' {
     IconFluentArrowClockwise20Regular: typeof import('~icons/fluent/arrow-clockwise20-regular')['default']
     IconFluentArrowDownload20Regular: typeof import('~icons/fluent/arrow-download20-regular')['default']
     IconFluentArrowLeft16Regular: typeof import('~icons/fluent/arrow-left16-regular')['default']
+    IconFluentArrowMove20Regular: typeof import('~icons/fluent/arrow-move20-regular')['default']
     IconFluentArrowRepeatAll20Regular: typeof import('~icons/fluent/arrow-repeat-all20-regular')['default']
     IconFluentArrowRight16Regular: typeof import('~icons/fluent/arrow-right16-regular')['default']
     IconFluentArrowShuffle16Regular: typeof import('~icons/fluent/arrow-shuffle16-regular')['default']

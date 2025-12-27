@@ -7,6 +7,7 @@ export default defineConfig({
     'bg-second': 'bg-[var(--color-second)]',
     'bg-third': 'bg-[var(--color-third)]',
     'bg-fourth': 'bg-[var(--color-fourth)]',
+    'bg-fifth': 'bg-[var(--color-fifth)]',
     'bg-card-active': 'bg-[var(--color-card-active)]',
     'bg-item': 'bg-[var(--color-item-bg)]',
     'bg-reverse-white': 'bg-[var(--color-reverse-white)]',

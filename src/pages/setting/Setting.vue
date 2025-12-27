@@ -22,7 +22,7 @@ import MigrateDialog from '@/components/MigrateDialog.vue'
 import Log from '@/pages/setting/Log.vue'
 import About from '@/components/About.vue'
 import CommonSetting from '@/components/setting/CommonSetting.vue'
-import ArticleSettting from '@/components/setting/ArticleSettting.vue'
+import ArticleSetting from '@/components/setting/ArticleSetting.vue'
 import WordSetting from '@/components/setting/WordSetting.vue'
 import { PRACTICE_ARTICLE_CACHE, PRACTICE_WORD_CACHE } from '@/utils/cache.ts'
 
@@ -357,7 +357,7 @@ function transferOk() {
         <div class="flex-1 overflow-y-auto overflow-x-hidden pr-4 content">
           <CommonSetting v-if="tabIndex === 0" />
           <WordSetting v-if="tabIndex === 1" />
-          <ArticleSettting v-if="tabIndex === 2" />
+          <ArticleSetting v-if="tabIndex === 2" />
 
           <div class="body" v-if="tabIndex === 3">
             <div class="row">

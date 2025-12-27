@@ -188,28 +188,15 @@ const progress = $computed(() => {
   }
 
   .bottom {
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 0.6rem;
-    background: var(--color-second);
+    @apply relative w-full box-border rounded-xl bg-second shadow-lg z-10;
     padding: 0.2rem var(--space) calc(0.4rem + env(safe-area-inset-bottom, 0px)) var(--space);
     border: 1px solid var(--color-item-border);
-    box-shadow: var(--shadow);
-    z-index: 10;
 
     .stat {
-      margin-top: 0.5rem;
-      display: flex;
-      justify-content: space-around;
-      gap: var(--stat-gap);
+      @apply flex justify-around gap-[var(--stat-gap)] mt-2;
 
       .row {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.3rem;
-        color: gray;
+        @apply flex flex-col items-center gap-1 text-gray;
 
         .line {
           height: 1px;

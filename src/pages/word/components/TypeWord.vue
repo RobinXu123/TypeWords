@@ -723,7 +723,7 @@ useEvents([
 
 <style scoped lang="scss">
 .dictation {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid gray;
 }
 
 .typing-word {

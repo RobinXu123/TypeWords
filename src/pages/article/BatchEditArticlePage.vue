@@ -309,7 +309,6 @@ function updateList(e) {
   height: 100vh;
   box-sizing: border-box;
   color: var(--color-font-1);
-  background: var(--color-second);
   display: flex;
 
   .close {

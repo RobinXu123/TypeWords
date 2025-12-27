@@ -182,7 +182,7 @@ defineExpose({scrollBottom})
   .list {
     .item {
       box-sizing: border-box;
-      background: var(--color-item-bg);
+      background: var(--color-second);
       color: var(--color-font-1);
       border-radius: .5rem;
       margin-bottom: .6rem;
@@ -199,13 +199,14 @@ defineExpose({scrollBottom})
       }
 
       &:hover {
+        background: var(--color-third);
         .right {
           opacity: 1;
         }
       }
 
       &.active {
-        background: var(--color-item-active);
+        background: var(--color-fourth);
         color: var(--color-font-1);
       }
 
