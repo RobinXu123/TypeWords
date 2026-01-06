@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useBaseStore } from '@/stores/base.ts'
 import BaseButton from '@/components/BaseButton.vue'
-import { ShortcutKey, Statistics, TaskWords, WordPracticeMode } from '@/types/types.ts'
+import type { Statistics, TaskWords } from '@/types/types.ts'
 import { emitter, EventKey, useEvents } from '@/utils/eventBus.ts'
 import { useSettingStore } from '@/stores/setting.ts'
 import { usePracticeStore } from '@/stores/practice.ts'
@@ -15,6 +15,7 @@ import ChannelIcons from '@/components/ChannelIcons/ChannelIcons.vue'
 import { AppEnv } from '@/config/env.ts'
 import { addStat } from '@/apis'
 import Toast from '@/components/base/toast/Toast.ts'
+import { ShortcutKey, WordPracticeMode } from '@/types/enum.ts'
 
 dayjs.extend(isoWeek)
 dayjs.extend(isBetween)
@@ -78,13 +79,9 @@ watch(model, async newVal => {
     if (settingStore.wordPracticeMode !== WordPracticeMode.Shuffle) {
       store.sdict.lastLearnIndex = store.sdict.lastLearnIndex + statStore.newWordNumber
       // 检查已忽略的单词数量，是否全部完成
-      let ignoreList = [store.allIgnoreWords, store.knownWords][
-        settingStore.ignoreSimpleWord ? 0 : 1
-      ]
+      let ignoreList = [store.allIgnoreWords, store.knownWords][settingStore.ignoreSimpleWord ? 0 : 1]
       // 忽略单词数
-      const ignoreCount = ignoreList.filter(word =>
-        store.sdict.words.some(w => w.word.toLowerCase() === word)
-      ).length
+      const ignoreCount = ignoreList.filter(word => store.sdict.words.some(w => w.word.toLowerCase() === word)).length
       // 如果lastLearnIndex已经超过可学单词数，则判定完成
       if (store.sdict.lastLearnIndex + ignoreCount >= store.sdict.length) {
         dictIsEnd = true
@@ -156,13 +153,7 @@ calcWeekList() // 新增：计算本周学习记录
 </script>
 
 <template>
-  <Dialog
-    v-model="model"
-    :close-on-click-bg="false"
-    :header="false"
-    :keyboard="false"
-    :show-close="false"
-  >
+  <Dialog v-model="model" :close-on-click-bg="false" :header="false" :keyboard="false" :show-close="false">
     <div class="p-8 pr-3 bg-[var(--bg-card-primary)] rounded-2xl space-y-6">
       <!-- Header Section -->
       <div class="text-center relative">

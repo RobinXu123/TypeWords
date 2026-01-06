@@ -13,7 +13,7 @@ import { useBaseStore } from '@/stores/base.ts'
 import { useRuntimeStore } from '@/stores/runtime.ts'
 import { useSettingStore } from '@/stores/setting.ts'
 import { getDefaultDict } from '@/types/func.ts'
-import { DictResource, DictType } from '@/types/types.ts'
+import type { DictResource } from '@/types/types.ts'
 import {
   _getDictDataByUrl,
   _nextTick,
@@ -31,6 +31,7 @@ import isBetween from 'dayjs/plugin/isBetween'
 import isoWeek from 'dayjs/plugin/isoWeek'
 import { watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { DictType } from '@/types/enum.ts'
 
 dayjs.extend(isoWeek)
 dayjs.extend(isBetween)

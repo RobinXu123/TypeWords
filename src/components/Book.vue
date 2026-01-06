@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Dict } from "@/types/types.ts";
+import type { Dict } from "@/types/types.ts";
 import Progress from '@/components/base/Progress.vue'
 import Checkbox from "@/components/base/checkbox/Checkbox.vue";
 

@@ -3,7 +3,7 @@ import BackIcon from '@/components/BackIcon.vue'
 import Empty from '@/components/Empty.vue'
 import ArticleList from '@/components/list/ArticleList.vue'
 import { useBaseStore } from '@/stores/base.ts'
-import { Article, Dict, DictType } from '@/types/types.ts'
+import type { Article, Dict } from '@/types/types'
 import { useRuntimeStore } from '@/stores/runtime.ts'
 import BaseButton from '@/components/BaseButton.vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -20,6 +20,7 @@ import { DICT_LIST } from '@/config/env.ts'
 import BaseIcon from '@/components/BaseIcon.vue'
 import Switch from '@/components/base/Switch.vue'
 import { useGetDict } from '@/hooks/dict.ts'
+import { DictType } from '@/types/enum.ts'
 
 const runtimeStore = useRuntimeStore()
 const settingStore = useSettingStore()
@@ -147,7 +148,7 @@ const list = $computed(() => {
     }),
   ].concat(runtimeStore.editDict.articles)
 })
-console.log('list',list)
+console.log('list', list)
 
 let showTranslate = $ref(true)
 let startPlay = $ref(false)

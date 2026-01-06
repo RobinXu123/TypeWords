@@ -93,7 +93,6 @@ declare module 'vue' {
     IconFluentMyLocation20Regular: typeof import('~icons/fluent/my-location20-regular')['default']
     IconFluentNumberSymbol20Regular: typeof import('~icons/fluent/number-symbol20-regular')['default']
     IconFluentPaddingLeft20Regular: typeof import('~icons/fluent/padding-left20-regular')['default']
-    IconFluentPen20Regular: typeof import('~icons/fluent/pen20-regular')['default']
     IconFluentPerson20Regular: typeof import('~icons/fluent/person20-regular')['default']
     IconFluentPhone20Regular: typeof import('~icons/fluent/phone20-regular')['default']
     IconFluentPlay20Regular: typeof import('~icons/fluent/play20-regular')['default']
@@ -116,7 +115,6 @@ declare module 'vue' {
     IconFluentTextBulletListSquare20Regular: typeof import('~icons/fluent/text-bullet-list-square20-regular')['default']
     IconFluentTextEditStyle20Regular: typeof import('~icons/fluent/text-edit-style20-regular')['default']
     IconFluentTextListAbcUppercaseLtr20Regular: typeof import('~icons/fluent/text-list-abc-uppercase-ltr20-regular')['default']
-    IconFluentTextParagraph16Regular: typeof import('~icons/fluent/text-paragraph16-regular')['default']
     IconFluentTextPositionThrough20Regular: typeof import('~icons/fluent/text-position-through20-regular')['default']
     IconFluentTextUnderlineDouble20Regular: typeof import('~icons/fluent/text-underline-double20-regular')['default']
     IconFluentTranslate16Regular: typeof import('~icons/fluent/translate16-regular')['default']
@@ -124,7 +122,6 @@ declare module 'vue' {
     IconFluentWeatherMoon16Regular: typeof import('~icons/fluent/weather-moon16-regular')['default']
     IconFluentWeatherSunny16Regular: typeof import('~icons/fluent/weather-sunny16-regular')['default']
     IconIconParkOutlineAddMusic: typeof import('~icons/icon-park-outline/add-music')['default']
-    IconIconParkOutlineVolumeNotice: typeof import('~icons/icon-park-outline/volume-notice')['default']
     IconIxWechatLogo: typeof import('~icons/ix/wechat-logo')['default']
     IconMaterialSymbolsMail: typeof import('~icons/material-symbols/mail')['default']
     IconMdiSparkles: typeof import('~icons/mdi/sparkles')['default']
@@ -172,7 +169,6 @@ declare module 'vue' {
     WeChat: typeof import('./src/components/ChannelIcons/WeChat.vue')['default']
     WordItem: typeof import('./src/components/WordItem.vue')['default']
     WordList: typeof import('./src/components/list/WordList.vue')['default']
-    WordList2: typeof import('./src/components/list/WordList2.vue')['default']
     WordSetting: typeof import('./src/components/setting/WordSetting.vue')['default']
   }
 }

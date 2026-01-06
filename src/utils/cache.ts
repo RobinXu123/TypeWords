@@ -1,4 +1,4 @@
-import { PracticeData, TaskWords } from '@/types/types.ts'
+import type { PracticeData, TaskWords } from '@/types/types.ts'
 import { PracticeState } from '@/stores/practice.ts'
 import { IS_DEV } from '@/config/env'
 

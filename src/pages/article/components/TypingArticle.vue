@@ -10,7 +10,7 @@ import { useBaseStore } from '@/stores/base.ts'
 import { usePracticeStore } from '@/stores/practice.ts'
 import { useSettingStore } from '@/stores/setting.ts'
 import { getDefaultArticle, getDefaultWord } from '@/types/func.ts'
-import { Article, ArticleWord, PracticeArticleWordType, Sentence, ShortcutKey, Word } from '@/types/types.ts'
+import type { Article, ArticleWord, Sentence, Word } from '@/types/types.ts'
 import { _dateFormat, _nextTick, isMobile, msToHourMinute, total } from '@/utils'
 import { emitter, EventKey, useEvents } from '@/utils/eventBus.ts'
 import ContextMenu from '@imengyu/vue3-context-menu'
@@ -20,6 +20,7 @@ import { nanoid } from 'nanoid'
 import { inject, onMounted, onUnmounted, watch } from 'vue'
 
 import { getPracticeArticleCache, setPracticeArticleCache } from '@/utils/cache.ts'
+import { PracticeArticleWordType, ShortcutKey } from '@/types/enum.ts'
 
 interface IProps {
   article: Article
@@ -675,13 +676,15 @@ const currentPractice = inject('currentPractice', [])
     <header class="pt-10 pb-6">
       <div class="text-center">
         <span class="text-3xl">{{ store.sbook.lastLearnIndex + 1 }}. </span>
-        <span class="text-3xl">{{ props.article?.title??'' }}</span>
+        <span class="text-3xl">{{ props.article?.title ?? '' }}</span>
         <span class="ml-6 text-2xl" v-if="settingStore.translate">{{ props.article?.titleTranslate }}</span>
       </div>
 
       <div class="mt-2 text-2xl" v-if="props.article?.question?.text">
         <div>Question: {{ props.article?.question?.text }}</div>
-        <div class="text-xl color-translate-second" v-if="settingStore.translate">问题: {{ props.article?.question?.translate }}</div>
+        <div class="text-xl color-translate-second" v-if="settingStore.translate">
+          问题: {{ props.article?.question?.translate }}
+        </div>
       </div>
     </header>
 

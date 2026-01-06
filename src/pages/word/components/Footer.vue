@@ -2,24 +2,16 @@
 import { inject, Ref } from 'vue'
 import { usePracticeStore } from '@/stores/practice.ts'
 import { useSettingStore } from '@/stores/setting.ts'
-import {
-  PracticeData,
-  ShortcutKey,
-  TaskWords,
-  WordPracticeMode,
-  WordPracticeModeNameMap,
-  WordPracticeModeStageMap,
-  WordPracticeStage,
-  WordPracticeStageNameMap,
-} from '@/types/types.ts'
+import type { PracticeData, TaskWords } from '@/types/types.ts'
 import BaseIcon from '@/components/BaseIcon.vue'
 import Tooltip from '@/components/base/Tooltip.vue'
-import Progress from '@/components/base/Progress.vue'
 import SettingDialog from '@/components/setting/SettingDialog.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import { useBaseStore } from '@/stores/base.ts'
 import VolumeSettingMiniDialog from '@/pages/word/components/VolumeSettingMiniDialog.vue'
 import StageProgress from '@/components/StageProgress.vue'
+import { ShortcutKey, WordPracticeMode, WordPracticeStage } from '@/types/enum.ts'
+import { WordPracticeModeNameMap, WordPracticeModeStageMap, WordPracticeStageNameMap } from '@/config/env.ts'
 
 const statStore = usePracticeStore()
 const store = useBaseStore()
@@ -97,9 +89,24 @@ const stages = $computed(() => {
       )
     ) {
       const stages = [
-        { name: `新词：${WordPracticeModeNameMap[settingStore.wordPracticeMode]}`, ratio: 33, percentage: 0, active: false },
-        { name: `上次学习：${WordPracticeModeNameMap[settingStore.wordPracticeMode]}`, ratio: 33, percentage: 0, active: false },
-        { name: `之前学习：${WordPracticeModeNameMap[settingStore.wordPracticeMode]}`, ratio: 33, percentage: 0, active: false },
+        {
+          name: `新词：${WordPracticeModeNameMap[settingStore.wordPracticeMode]}`,
+          ratio: 33,
+          percentage: 0,
+          active: false,
+        },
+        {
+          name: `上次学习：${WordPracticeModeNameMap[settingStore.wordPracticeMode]}`,
+          ratio: 33,
+          percentage: 0,
+          active: false,
+        },
+        {
+          name: `之前学习：${WordPracticeModeNameMap[settingStore.wordPracticeMode]}`,
+          ratio: 33,
+          percentage: 0,
+          active: false,
+        },
       ]
 
       // 设置已完成阶段的百分比和比例
@@ -241,7 +248,7 @@ const stages = $computed(() => {
         <div class="flex gap-2 justify-center items-center" id="toolbar-icons">
           <SettingDialog type="word" />
 
-          <VolumeSettingMiniDialog/>
+          <VolumeSettingMiniDialog />
 
           <BaseIcon
             v-if="settingStore.wordPracticeMode !== WordPracticeMode.Free"

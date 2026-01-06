@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import { Dict, DictId, Word } from '../types/types.ts'
+import { Dict, Word } from '../types/types.ts'
 import { _getStudyProgress, checkAndUpgradeSaveDict, shakeCommonDict } from '@/utils'
 import { shallowReactive } from 'vue'
 import { getDefaultDict } from '@/types/func.ts'
 import { get, set } from 'idb-keyval'
-import { AppEnv, SAVE_DICT_KEY } from '@/config/env.ts'
+import { AppEnv, DictId, SAVE_DICT_KEY } from '@/config/env.ts'
 import { add2MyDict, dictListVersion, myDictList } from '@/apis'
 import Toast from '@/components/base/toast/Toast.ts'
 

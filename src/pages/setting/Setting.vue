@@ -3,10 +3,18 @@ import { nextTick, ref, watch } from 'vue'
 import { useSettingStore } from '@/stores/setting.ts'
 import { getShortcutKey, useEventListener } from '@/hooks/event.ts'
 import { checkAndUpgradeSaveDict, checkAndUpgradeSaveSetting, cloneDeep, loadJsLib, sleep } from '@/utils'
-import { DefaultShortcutKeyMap } from '@/types/types.ts'
 import BaseButton from '@/components/BaseButton.vue'
 import { useBaseStore } from '@/stores/base.ts'
-import { APP_NAME, APP_VERSION, AppEnv, Host, IS_DEV, LIB_JS_URL, LOCAL_FILE_KEY } from '@/config/env.ts'
+import {
+  APP_NAME,
+  APP_VERSION,
+  AppEnv,
+  DefaultShortcutKeyMap,
+  Host,
+  IS_DEV,
+  LIB_JS_URL,
+  LOCAL_FILE_KEY,
+} from '@/config/env.ts'
 import BasePage from '@/components/BasePage.vue'
 import Toast from '@/components/base/toast/Toast.ts'
 import { set } from 'idb-keyval'

@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { ShortcutKey, Word, WordPracticeStage, WordPracticeType } from '@/types/types.ts'
+import type { Word } from '@/types/types.ts'
 import VolumeIcon from '@/components/icon/VolumeIcon.vue'
 import { useSettingStore } from '@/stores/setting.ts'
-import {
-  usePlayBeep,
-  usePlayCorrect,
-  usePlayKeyboardAudio,
-  usePlayWordAudio,
-} from '@/hooks/sound.ts'
+import { usePlayBeep, usePlayCorrect, usePlayKeyboardAudio, usePlayWordAudio } from '@/hooks/sound.ts'
 import { emitter, EventKey, useEvents } from '@/utils/eventBus.ts'
 import { onMounted, onUnmounted, watch } from 'vue'
 import SentenceHightLightWord from '@/pages/word/components/SentenceHightLightWord.vue'
@@ -18,6 +13,7 @@ import BaseButton from '@/components/BaseButton.vue'
 import Space from '@/pages/article/components/Space.vue'
 import Toast from '@/components/base/toast/Toast.ts'
 import Tooltip from '@/components/base/Tooltip.vue'
+import { ShortcutKey, WordPracticeStage, WordPracticeType } from '@/types/enum.ts'
 
 interface IProps {
   word: Word
@@ -308,18 +304,12 @@ async function onTyping(e: KeyboardEvent) {
       wordCompletedTime = Date.now() // 记录单词完成的时间戳
       playCorrect()
       if (
-        [WordPracticeType.Listen, WordPracticeType.Identify].includes(
-          settingStore.wordPracticeType
-        ) &&
+        [WordPracticeType.Listen, WordPracticeType.Identify].includes(settingStore.wordPracticeType) &&
         !showWordResult
       ) {
         showWordResult = true
       }
-      if (
-        [WordPracticeType.FollowWrite, WordPracticeType.Spell].includes(
-          settingStore.wordPracticeType
-        )
-      ) {
+      if ([WordPracticeType.FollowWrite, WordPracticeType.Spell].includes(settingStore.wordPracticeType)) {
         if (settingStore.autoNextWord) {
           if (settingStore.repeatCount == 100) {
             if (settingStore.repeatCustomCount <= wordRepeatCount + 1) {
@@ -476,11 +466,9 @@ useEvents([
           class="phonetic"
           :class="
             (settingStore.dictation ||
-              [
-                WordPracticeType.Spell,
-                WordPracticeType.Listen,
-                WordPracticeType.Dictation,
-              ].includes(settingStore.wordPracticeType)) &&
+              [WordPracticeType.Spell, WordPracticeType.Listen, WordPracticeType.Dictation].includes(
+                settingStore.wordPracticeType
+              )) &&
             !showFullWord &&
             !showWordResult &&
             'word-shadow'
@@ -499,9 +487,7 @@ useEvents([
 
       <Tooltip
         :title="
-          settingStore.dictation
-            ? `可以按快捷键 ${settingStore.shortcutKeyMap[ShortcutKey.ShowWord]} 显示正确答案`
-            : ''
+          settingStore.dictation ? `可以按快捷键 ${settingStore.shortcutKeyMap[ShortcutKey.ShowWord]} 显示正确答案` : ''
         "
       >
         <div
@@ -526,12 +512,7 @@ useEvents([
             >
               <template v-for="i in input">
                 <span class="l" v-if="i !== ' '">{{ i }}</span>
-                <Space
-                  class="l"
-                  v-else
-                  :is-wrong="showWordResult ? !right : false"
-                  :is-wait="!showWordResult"
-                />
+                <Space class="l" v-else :is-wrong="showWordResult ? !right : false" :is-wait="!showWordResult" />
               </template>
             </div>
           </div>
@@ -605,10 +586,7 @@ useEvents([
               :word="word.word"
               :dictation="!(!settingStore.dictation || showFullWord || showWordResult)"
             />
-            <div
-              class="text-base anim"
-              v-opacity="settingStore.translate || showFullWord || showWordResult"
-            >
+            <div class="text-base anim" v-opacity="settingStore.translate || showFullWord || showWordResult">
               {{ item.cn }}
             </div>
           </div>
@@ -627,10 +605,7 @@ useEvents([
                 :word="word.word"
                 :dictation="!(!settingStore.dictation || showFullWord || showWordResult)"
               />
-              <div
-                class="cn anim"
-                v-opacity="settingStore.translate || showFullWord || showWordResult"
-              >
+              <div class="cn anim" v-opacity="settingStore.translate || showFullWord || showWordResult">
                 {{ item.cn }}
               </div>
             </div>
@@ -647,16 +622,10 @@ useEvents([
               <div class="flex" v-for="item in word.synos">
                 <div class="pos line-height-1.4rem!">{{ item.pos }}</div>
                 <div>
-                  <div
-                    class="cn anim"
-                    v-opacity="settingStore.translate || showFullWord || showWordResult"
-                  >
+                  <div class="cn anim" v-opacity="settingStore.translate || showFullWord || showWordResult">
                     {{ item.cn }}
                   </div>
-                  <div
-                    class="anim"
-                    v-opacity="!settingStore.dictation || showFullWord || showWordResult"
-                  >
+                  <div class="anim" v-opacity="!settingStore.dictation || showFullWord || showWordResult">
                     <span class="en" v-for="(i, j) in item.ws">
                       {{ i }} {{ j !== item.ws.length - 1 ? ' / ' : '' }}
                     </span>
@@ -670,9 +639,7 @@ useEvents([
 
       <div
         class="anim"
-        v-opacity="
-          (settingStore.translate && !settingStore.dictation) || showFullWord || showWordResult
-        "
+        v-opacity="(settingStore.translate && !settingStore.dictation) || showFullWord || showWordResult"
       >
         <template v-if="word?.etymology?.length">
           <div class="line-white my-3"></div>

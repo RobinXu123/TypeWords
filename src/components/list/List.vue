@@ -2,7 +2,7 @@
 
 import BaseIcon from "@/components/BaseIcon.vue";
 import { cloneDeep, throttle } from "@/utils";
-import { Article } from "@/types/types.ts";
+import type { Article } from "@/types/types.ts";
 import DeleteIcon from "@/components/icon/DeleteIcon.vue";
 import BaseInput from "@/components/base/BaseInput.vue";
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ShortcutKey } from '@/types/types.ts'
 import { SoundFileOptions } from '@/config/env.ts'
 import { getAudioFileUrl, usePlayAudio } from '@/hooks/sound.ts'
 import Switch from '@/components/base/Switch.vue'
@@ -10,6 +9,7 @@ import Slider from '@/components/base/Slider.vue'
 import SettingItem from '@/pages/setting/SettingItem.vue'
 import { useSettingStore } from '@/stores/setting.ts'
 import { useBaseStore } from '@/stores/base.ts'
+import {ShortcutKey} from "@/types/enum.ts";
 
 const settingStore = useSettingStore()
 const store = useBaseStore()

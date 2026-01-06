@@ -1,13 +1,14 @@
-import { Article, Dict, DictId, DictType, TaskWords, Word } from '@/types/types.ts'
+import type { Article, Dict, TaskWords, Word } from '@/types/types.ts'
 import { useBaseStore } from '@/stores/base.ts'
 import { useSettingStore } from '@/stores/setting.ts'
 import { getDefaultDict, getDefaultWord } from '@/types/func.ts'
 import { _getDictDataByUrl, cloneDeep, getRandomN, resourceWrap, shuffle, sleep, splitIntoN } from '@/utils'
 import { onMounted, ref, watch } from 'vue'
-import { AppEnv, DICT_LIST } from '@/config/env.ts'
+import { AppEnv, DICT_LIST, DictId } from '@/config/env.ts'
 import { detail } from '@/apis'
 import { useRuntimeStore } from '@/stores/runtime.ts'
 import { useRoute, useRouter } from 'vue-router'
+import { DictType } from '@/types/enum.ts'
 
 export function useWordOptions() {
   const store = useBaseStore()

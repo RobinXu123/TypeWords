@@ -21,23 +21,14 @@ import { usePracticeStore } from '@/stores/practice.ts'
 import { useRuntimeStore } from '@/stores/runtime.ts'
 import { useSettingStore } from '@/stores/setting.ts'
 import { getDefaultArticle, getDefaultDict, getDefaultWord } from '@/types/func.ts'
-import {
-  Article,
-  ArticleItem,
-  ArticleWord,
-  Dict,
-  DictType,
-  PracticeArticleWordType,
-  ShortcutKey,
-  Statistics,
-  Word,
-} from '@/types/types.ts'
+import type { Article, ArticleItem, ArticleWord, Dict, Statistics, Word } from '@/types/types.ts'
 import { _getDictDataByUrl, _nextTick, cloneDeep, isMobile, loadJsLib, msToMinute, resourceWrap, total } from '@/utils'
 import { getPracticeArticleCache, setPracticeArticleCache } from '@/utils/cache.ts'
 import { emitter, EventKey, useEvents } from '@/utils/eventBus.ts'
 import { computed, onMounted, onUnmounted, provide, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { nanoid } from 'nanoid'
+import { DictType, PracticeArticleWordType, ShortcutKey } from '@/types/enum.ts'
 
 const store = useBaseStore()
 const runtimeStore = useRuntimeStore()

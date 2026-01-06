@@ -1,3 +1,5 @@
+import { DictType, PracticeArticleWordType } from '@/types/enum.ts'
+
 export type Word = {
   id?: string
   custom?: boolean
@@ -37,19 +39,8 @@ export type Word = {
   }[]
 }
 
-export const PronunciationApi = 'https://dict.youdao.com/dictvoice?audio='
-
 export type TranslateLanguageType = 'en' | 'zh-CN' | 'ja' | 'de' | 'common' | ''
 export type LanguageType = 'en' | 'ja' | 'de' | 'code'
-
-export enum DictType {
-  collect = 'collect',
-  simple = 'simple',
-  wrong = 'wrong',
-  known = 'known',
-  word = 'word',
-  article = 'article',
-}
 
 export interface ArticleWord extends Word {
   nextSpace: boolean
@@ -107,62 +98,6 @@ export interface Statistics {
   title: string //文章标题
 }
 
-export enum Sort {
-  normal = 0,
-  random = 1,
-  reverse = 2,
-  reverseAll = 3,
-  randomAll = 4,
-}
-
-export enum ShortcutKey {
-  ShowWord = 'ShowWord',
-  EditArticle = 'EditArticle',
-  Next = 'Next',
-  Previous = 'Previous',
-  ToggleSimple = 'ToggleSimple',
-  ToggleCollect = 'ToggleCollect',
-  NextChapter = 'NextChapter',
-  PreviousChapter = 'PreviousChapter',
-  RepeatChapter = 'RepeatChapter',
-  DictationChapter = 'DictationChapter',
-  PlayWordPronunciation = 'PlayWordPronunciation',
-  ToggleShowTranslate = 'ToggleShowTranslate',
-  ToggleDictation = 'ToggleDictation',
-  ToggleTheme = 'ToggleTheme',
-  ToggleConciseMode = 'ToggleConciseMode',
-  TogglePanel = 'TogglePanel',
-  RandomWrite = 'RandomWrite',
-  KnowWord = 'KnowWord',
-  UnknownWord = 'UnknownWord',
-}
-
-export const DefaultShortcutKeyMap = {
-  [ShortcutKey.EditArticle]: 'Ctrl+E',
-  [ShortcutKey.ShowWord]: 'Escape',
-  [ShortcutKey.Previous]: 'Alt+⬅',
-  [ShortcutKey.Next]: 'Tab',
-  [ShortcutKey.ToggleSimple]: '`',
-  [ShortcutKey.ToggleCollect]: 'Enter',
-  [ShortcutKey.PreviousChapter]: 'Ctrl+⬅',
-  [ShortcutKey.NextChapter]: 'Ctrl+➡',
-  [ShortcutKey.RepeatChapter]: 'Ctrl+Enter',
-  [ShortcutKey.DictationChapter]: 'Alt+Enter',
-  [ShortcutKey.PlayWordPronunciation]: 'Ctrl+P',
-  [ShortcutKey.ToggleShowTranslate]: 'Ctrl+Z',
-  [ShortcutKey.ToggleDictation]: 'Ctrl+I',
-  [ShortcutKey.ToggleTheme]: 'Ctrl+Q',
-  [ShortcutKey.ToggleConciseMode]: 'Ctrl+M',
-  [ShortcutKey.TogglePanel]: 'Ctrl+L',
-  [ShortcutKey.RandomWrite]: 'Ctrl+R',
-  [ShortcutKey.KnowWord]: '1',
-  [ShortcutKey.UnknownWord]: '2',
-}
-
-export enum TranslateEngine {
-  Baidu = 0,
-}
-
 export type DictResource = {
   id: string
   name: string
@@ -202,11 +137,6 @@ export interface ArticleItem {
   index: number
 }
 
-export const SlideType = {
-  HORIZONTAL: 0,
-  VERTICAL: 1,
-}
-
 export interface PracticeData {
   index: number
   words: Word[]
@@ -219,144 +149,4 @@ export interface TaskWords {
   review: Word[]
   write: Word[]
   shuffle: Word[]
-}
-
-export class DictId {
-  static wordCollect = 'wordCollect'
-  static wordWrong = 'wordWrong'
-  static wordKnown = 'wordKnown'
-  static articleCollect = 'articleCollect'
-}
-
-export enum PracticeArticleWordType {
-  Symbol,
-  Number,
-  Word,
-}
-
-//练习模式
-export enum WordPracticeMode {
-  System = 0,
-  Free = 1,
-  IdentifyOnly = 2, // 独立自测模式
-  DictationOnly = 3, // 独立默写模式
-  ListenOnly = 4, // 独立听写模式
-  Shuffle = 5, // 随机复习模式
-  Review = 6, // 复习模式
-}
-
-//练习类型
-export enum WordPracticeType {
-  FollowWrite, //跟写
-  Spell,
-  Identify,
-  Listen,
-  Dictation,
-}
-
-export enum CodeType {
-  Login = 0,
-  Register = 1,
-  ResetPwd = 2,
-  ChangeEmail = 3,
-  ChangePhoneNew = 4,
-  ChangePhoneOld = 5,
-}
-
-export enum ImportStatus {
-  Idle = 0,
-  Success = 1,
-  Fail = 2,
-}
-
-//练习阶段
-export enum WordPracticeStage {
-  FollowWriteNewWord = 0,
-  IdentifyNewWord = 1,
-  ListenNewWord = 2,
-  DictationNewWord = 3,
-
-  FollowWriteReview = 4,
-  IdentifyReview = 5,
-  ListenReview = 6,
-  DictationReview = 7,
-
-  FollowWriteReviewAll = 8,
-  IdentifyReviewAll = 9,
-  ListenReviewAll = 10,
-  DictationReviewAll = 11,
-
-  Shuffle = 12,
-  Complete = 13,
-}
-
-export const WordPracticeModeStageMap: Record<WordPracticeMode, WordPracticeStage[]> = {
-  [WordPracticeMode.Free]: [WordPracticeStage.FollowWriteNewWord, WordPracticeStage.Complete],
-  [WordPracticeMode.IdentifyOnly]: [
-    WordPracticeStage.IdentifyNewWord,
-    WordPracticeStage.IdentifyReview,
-    WordPracticeStage.IdentifyReviewAll,
-    WordPracticeStage.Complete,
-  ],
-  [WordPracticeMode.DictationOnly]: [
-    WordPracticeStage.DictationNewWord,
-    WordPracticeStage.DictationReview,
-    WordPracticeStage.DictationReviewAll,
-    WordPracticeStage.Complete,
-  ],
-  [WordPracticeMode.ListenOnly]: [
-    WordPracticeStage.ListenNewWord,
-    WordPracticeStage.ListenReview,
-    WordPracticeStage.ListenReviewAll,
-    WordPracticeStage.Complete,
-  ],
-  [WordPracticeMode.System]: [
-    WordPracticeStage.FollowWriteNewWord,
-    WordPracticeStage.ListenNewWord,
-    WordPracticeStage.DictationNewWord,
-    WordPracticeStage.IdentifyReview,
-    WordPracticeStage.ListenReview,
-    WordPracticeStage.DictationReview,
-    WordPracticeStage.IdentifyReviewAll,
-    WordPracticeStage.ListenReviewAll,
-    WordPracticeStage.DictationReviewAll,
-    WordPracticeStage.Complete,
-  ],
-  [WordPracticeMode.Shuffle]: [WordPracticeStage.Shuffle, WordPracticeStage.Complete],
-  [WordPracticeMode.Review]: [
-    WordPracticeStage.IdentifyReview,
-    WordPracticeStage.ListenReview,
-    WordPracticeStage.DictationReview,
-    WordPracticeStage.IdentifyReviewAll,
-    WordPracticeStage.ListenReviewAll,
-    WordPracticeStage.DictationReviewAll,
-    WordPracticeStage.Complete,
-  ],
-}
-
-export const WordPracticeStageNameMap: Record<WordPracticeStage, string> = {
-  [WordPracticeStage.FollowWriteNewWord]: '跟写新词',
-  [WordPracticeStage.IdentifyNewWord]: '自测新词',
-  [WordPracticeStage.ListenNewWord]: '听写新词',
-  [WordPracticeStage.DictationNewWord]: '默写新词',
-  [WordPracticeStage.FollowWriteReview]: '跟写上次学习',
-  [WordPracticeStage.IdentifyReview]: '自测上次学习',
-  [WordPracticeStage.ListenReview]: '听写上次学习',
-  [WordPracticeStage.DictationReview]: '默写上次学习',
-  [WordPracticeStage.FollowWriteReviewAll]: '跟写之前学习',
-  [WordPracticeStage.IdentifyReviewAll]: '自测之前学习',
-  [WordPracticeStage.ListenReviewAll]: '听写之前学习',
-  [WordPracticeStage.DictationReviewAll]: '默写之前学习',
-  [WordPracticeStage.Complete]: '完成学习',
-  [WordPracticeStage.Shuffle]: '随机复习',
-}
-
-export const WordPracticeModeNameMap: Record<WordPracticeMode, string> = {
-  [WordPracticeMode.System]: '学习',
-  [WordPracticeMode.Free]: '自由练习',
-  [WordPracticeMode.IdentifyOnly]: '自测',
-  [WordPracticeMode.DictationOnly]: '默写',
-  [WordPracticeMode.ListenOnly]: '听写',
-  [WordPracticeMode.Shuffle]: '随机复习',
-  [WordPracticeMode.Review]: '复习',
 }

@@ -1,6 +1,4 @@
 <script setup lang="tsx">
-import { DictId, Sort } from '@/types/types.ts'
-
 import { detail } from '@/apis'
 import BackIcon from '@/components/BackIcon.vue'
 import BaseButton from '@/components/BaseButton.vue'
@@ -15,7 +13,7 @@ import Form from '@/components/base/form/Form.vue'
 import FormItem from '@/components/base/form/FormItem.vue'
 import Toast from '@/components/base/toast/Toast.ts'
 import DeleteIcon from '@/components/icon/DeleteIcon.vue'
-import { AppEnv, LIB_JS_URL, TourConfig } from '@/config/env.ts'
+import { AppEnv, DictId, LIB_JS_URL, TourConfig } from '@/config/env.ts'
 import { getCurrentStudyWord } from '@/hooks/dict.ts'
 import EditBook from '@/pages/article/components/EditBook.vue'
 import PracticeSettingDialog from '@/pages/word/components/PracticeSettingDialog.vue'
@@ -31,6 +29,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { wordDelete } from '@/apis/words.ts'
 import { copyOfficialDict } from '@/apis/dict.ts'
 import { PRACTICE_WORD_CACHE } from '@/utils/cache.ts'
+import { Sort } from '@/types/enum.ts'
 
 const runtimeStore = useRuntimeStore()
 const base = useBaseStore()
@@ -610,9 +609,14 @@ defineRender(() => {
                 importLoading={importLoading}
               >
                 {val => (
-                  <WordItem showTransPop={false}
-                            onClick={() => editWord(val.item)}
-                            index={val.index} showCollectIcon={false} showMarkIcon={false} item={val.item}>
+                  <WordItem
+                    showTransPop={false}
+                    onClick={() => editWord(val.item)}
+                    index={val.index}
+                    showCollectIcon={false}
+                    showMarkIcon={false}
+                    item={val.item}
+                  >
                     {{
                       prefix: () => val.checkbox(val.item),
                       suffix: () => (

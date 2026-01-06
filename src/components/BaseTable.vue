@@ -1,6 +1,5 @@
 <script setup lang="tsx">
 import { nextTick, onMounted, useSlots } from 'vue'
-import { Sort } from '@/types/types.ts'
 import MiniDialog from '@/components/dialog/MiniDialog.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 import BaseButton from '@/components/BaseButton.vue'
@@ -13,6 +12,7 @@ import DeleteIcon from '@/components/icon/DeleteIcon.vue'
 import Dialog from '@/components/dialog/Dialog.vue'
 import BaseInput from '@/components/base/BaseInput.vue'
 import { Host } from '@/config/env.ts'
+import { Sort } from '@/types/enum.ts'
 
 const props = withDefaults(
   defineProps<{

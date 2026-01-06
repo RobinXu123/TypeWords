@@ -1,8 +1,7 @@
 import {onMounted, watchEffect} from "vue"
 import {useSettingStore} from "@/stores/setting.ts";
-import {PronunciationApi} from "@/types/types.ts";
 
-import {SoundFileOptions} from "@/config/env.ts";
+import { PronunciationApi, SoundFileOptions } from '@/config/env.ts'
 
 export function useSound(audioSrcList?: string[], audioFileLength?: number) {
   let audioList: HTMLAudioElement[] = $ref([])
@@ -24,7 +23,7 @@ export function useSound(audioSrcList?: string[], audioFileLength?: number) {
   }
 
   function play(volume: number = 100) {
-    console.log('play',audioList)
+    console.log('play', audioList)
     index++
     if (audioList.length > 1 && audioList.length !== audioLength) {
       audioList[index % audioList.length].volume = volume / 100
@@ -35,7 +34,7 @@ export function useSound(audioSrcList?: string[], audioFileLength?: number) {
     }
   }
 
-  return {play, setAudio}
+  return { play, setAudio }
 }
 
 

@@ -5,17 +5,7 @@ import Statistics from '@/pages/word/components/Statistics.vue'
 import { emitter, EventKey, useEvents } from '@/utils/eventBus.ts'
 import { useSettingStore } from '@/stores/setting.ts'
 import { useRuntimeStore } from '@/stores/runtime.ts'
-import {
-  Dict,
-  PracticeData,
-  ShortcutKey,
-  TaskWords,
-  Word,
-  WordPracticeMode,
-  WordPracticeModeStageMap,
-  WordPracticeStage,
-  WordPracticeType,
-} from '@/types/types.ts'
+import type { Dict, PracticeData, TaskWords, Word } from '@/types/types.ts'
 import { useDisableEventListener, useOnKeyboardEventListener, useStartKeyboardEventListener } from '@/hooks/event.ts'
 import useTheme from '@/hooks/theme.ts'
 import { getCurrentStudyWord, useWordOptions } from '@/hooks/dict.ts'
@@ -35,12 +25,13 @@ import { getDefaultDict, getDefaultWord } from '@/types/func.ts'
 import ConflictNotice from '@/components/ConflictNotice.vue'
 import PracticeLayout from '@/components/PracticeLayout.vue'
 
-import { AppEnv, DICT_LIST, LIB_JS_URL, TourConfig } from '@/config/env.ts'
+import { AppEnv, DICT_LIST, LIB_JS_URL, TourConfig, WordPracticeModeStageMap } from '@/config/env.ts'
 import { ToastInstance } from '@/components/base/toast/type.ts'
 import { watchOnce } from '@vueuse/core'
 import { setUserDictProp } from '@/apis'
 import GroupList from '@/pages/word/components/GroupList.vue'
 import { getPracticeWordCache, setPracticeWordCache } from '@/utils/cache.ts'
+import { ShortcutKey, WordPracticeMode, WordPracticeStage, WordPracticeType } from '@/types/enum.ts'
 
 const { isWordCollect, toggleWordCollect, isWordSimple, toggleWordSimple } = useWordOptions()
 const settingStore = useSettingStore()
@@ -735,7 +726,7 @@ useEvents([
       <div class="practice-word mb-50">
         <div
           class="fixed z-1 top-4 w-full"
-          style="left: calc(50vw + var(--aside-width) / 2 - var(--toolbar-width) / 2);width:var(--toolbar-width)"
+          style="left: calc(50vw + var(--aside-width) / 2 - var(--toolbar-width) / 2); width: var(--toolbar-width)"
           v-if="settingStore.showNearWord"
         >
           <div class="center gap-2 cursor-pointer float-left" @click="prev" v-if="prevWord">

@@ -1,14 +1,15 @@
 import { BaseState, getDefaultBaseState, useBaseStore } from '@/stores/base.ts'
 import { getDefaultSettingState, SettingState } from '@/stores/setting.ts'
-import { Dict, DictId, DictResource, DictType } from '@/types/types.ts'
+import type { Dict, DictResource } from '@/types/types.ts'
 import { useRouter } from 'vue-router'
 import { useRuntimeStore } from '@/stores/runtime.ts'
 import dayjs from 'dayjs'
-import { AppEnv, RESOURCE_PATH, SAVE_DICT_KEY, SAVE_SETTING_KEY } from '@/config/env.ts'
+import { AppEnv, DictId, RESOURCE_PATH, SAVE_DICT_KEY, SAVE_SETTING_KEY } from '@/config/env.ts'
 import { nextTick } from 'vue'
 import Toast from '@/components/base/toast/Toast.ts'
 import { getDefaultDict, getDefaultWord } from '@/types/func.ts'
 import duration from 'dayjs/plugin/duration'
+import {DictType} from "@/types/enum.ts";
 
 dayjs.extend(duration)
 

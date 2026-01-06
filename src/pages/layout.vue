@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ShortcutKey } from '@/types/types.ts'
 import Logo from '@/components/Logo.vue'
 import { useSettingStore } from '@/stores/setting.ts'
 import { useRouter } from 'vue-router'
@@ -8,6 +7,7 @@ import BaseIcon from '@/components/BaseIcon.vue'
 import { useRuntimeStore } from '@/stores/runtime.ts'
 import { jump2Feedback } from '@/utils'
 import { watch } from 'vue'
+import { ShortcutKey } from '@/types/enum.ts'
 
 const settingStore = useSettingStore()
 const runtimeStore = useRuntimeStore()

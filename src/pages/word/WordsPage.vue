@@ -13,7 +13,7 @@ import {
   useNav,
 } from '@/utils'
 import BasePage from '@/components/BasePage.vue'
-import { DictResource, WordPracticeMode, WordPracticeModeNameMap } from '@/types/types.ts'
+import type { DictResource } from '@/types/types.ts'
 import { watch } from 'vue'
 import { getCurrentStudyWord } from '@/hooks/dict.ts'
 import { useRuntimeStore } from '@/stores/runtime.ts'
@@ -28,13 +28,14 @@ import PracticeSettingDialog from '@/pages/word/components/PracticeSettingDialog
 import ChangeLastPracticeIndexDialog from '@/pages/word/components/ChangeLastPracticeIndexDialog.vue'
 import { useSettingStore } from '@/stores/setting.ts'
 import { useFetch } from '@vueuse/core'
-import { AppEnv, DICT_LIST, Host, LIB_JS_URL, Origin, TourConfig } from '@/config/env.ts'
+import { AppEnv, DICT_LIST, Host, LIB_JS_URL, Origin, TourConfig, WordPracticeModeNameMap } from '@/config/env.ts'
 import { myDictList } from '@/apis'
 import PracticeWordListDialog from '@/pages/word/components/PracticeWordListDialog.vue'
 import ShufflePracticeSettingDialog from '@/pages/word/components/ShufflePracticeSettingDialog.vue'
 import { deleteDict } from '@/apis/dict.ts'
 import OptionButton from '@/components/base/OptionButton.vue'
 import { getPracticeWordCache, setPracticeWordCache } from '@/utils/cache.ts'
+import { WordPracticeMode } from '@/types/enum.ts'
 
 const store = useBaseStore()
 const settingStore = useSettingStore()

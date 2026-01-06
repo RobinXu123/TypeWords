@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Article, DictId } from '@/types/types.ts'
+import type { Article } from '@/types/types.ts'
 import BaseButton from '@/components/BaseButton.vue'
 import { _nextTick, cloneDeep, loadJsLib } from '@/utils'
 import { useBaseStore } from '@/stores/base.ts'
@@ -15,7 +15,7 @@ import { getDefaultArticle } from '@/types/func.ts'
 import BackIcon from '@/components/BackIcon.vue'
 import MiniDialog from '@/components/dialog/MiniDialog.vue'
 import { onMounted } from 'vue'
-import { LIB_JS_URL, Origin } from '@/config/env.ts'
+import { DictId, LIB_JS_URL, Origin } from '@/config/env.ts'
 import { syncBookInMyStudyList } from '@/hooks/article.ts'
 
 const base = useBaseStore()
@@ -254,13 +254,13 @@ function updateList(e) {
         @select-item="selectArticle"
       >
         <template v-slot="{ item, index }">
-         <div>
-           <div class="name">
-             <span class="text-sm text-gray-500" v-if="index != undefined"> {{ index + 1 }}. </span>
-             {{ item.title }}
-           </div>
-           <div class="translate-name">{{ `   ${item.titleTranslate}` }}</div>
-         </div>
+          <div>
+            <div class="name">
+              <span class="text-sm text-gray-500" v-if="index != undefined"> {{ index + 1 }}. </span>
+              {{ item.title }}
+            </div>
+            <div class="translate-name">{{ `   ${item.titleTranslate}` }}</div>
+          </div>
         </template>
       </List>
       <div class="add" v-if="!article.title">正在添加新文章...</div>

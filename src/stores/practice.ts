@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { WordPracticeModeStageMap, WordPracticeStage, WordPracticeStageNameMap } from '@/types/types.ts'
 import { useSettingStore } from './setting'
+import {WordPracticeStage} from "@/types/enum.ts";
+import { WordPracticeModeStageMap, WordPracticeStageNameMap } from '@/config/env.ts'
 
 export interface PracticeState {
   stage: WordPracticeStage

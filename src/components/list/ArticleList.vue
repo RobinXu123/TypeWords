@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Article } from '@/types/types.ts'
+import type { Article } from '@/types/types.ts'
 import BaseList from '@/components/list/BaseList.vue'
 import BaseInput from '@/components/base/BaseInput.vue'
 import { useArticleOptions } from '@/hooks/dict.ts'

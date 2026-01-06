@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Article, Sentence, TranslateEngine } from '@/types/types.ts'
+import type { Article, Sentence } from '@/types/types.ts'
 import BaseButton from '@/components/BaseButton.vue'
 import EditAbleText from '@/components/EditAbleText.vue'
 import { getNetworkTranslate, getSentenceAllText, getSentenceAllTranslateText } from '@/hooks/translate.ts'
@@ -22,6 +22,7 @@ import BaseInput from '@/components/base/BaseInput.vue'
 import Textarea from '@/components/base/Textarea.vue'
 import { LOCAL_FILE_KEY } from '@/config/env.ts'
 import PopConfirm from '@/components/PopConfirm.vue'
+import {TranslateEngine} from "@/types/enum.ts";
 
 const Dialog = defineAsyncComponent(() => import('@/components/dialog/Dialog.vue'))
 

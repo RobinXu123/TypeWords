@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Article } from '@/types/types.ts'
+import type { Article } from '@/types/types.ts'
 import { ref, watch } from 'vue'
 import { get } from 'idb-keyval'
 import Audio from '@/components/base/Audio.vue'
