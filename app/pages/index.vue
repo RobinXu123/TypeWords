@@ -58,7 +58,7 @@ const { locales, setLocale, locale } = useI18n()
         </NuxtLink>
       </div>
       <div class="absolute right-6 flex items-center gap-2 color-reverse-black">
-        <NuxtLink to="/app/pages/help" class="color-reverse-black" aria-label="Help page">
+        <NuxtLink to="/help" class="color-reverse-black" aria-label="Help page">
           <BaseIcon>
             <IconFluentQuestionCircle20Regular />
           </BaseIcon>
