@@ -5,6 +5,7 @@ export default defineConfig({
   transformers: [transformerDirectives()],
   shortcuts: {
     'bg-primary': 'bg-[var(--color-primary)]',
+    'bg-primary2': 'bg-[var(--color-primary2)]',
     'bg-second': 'bg-[var(--color-second)]',
     'bg-third': 'bg-[var(--color-third)]',
     'bg-fourth': 'bg-[var(--color-fourth)]',
@@ -15,6 +16,8 @@ export default defineConfig({
     'bg-reverse-black': 'bg-[var(--color-reverse-black)]',
     'color-main': 'color-[var(--color-main-text)]',
     'color-link': 'color-[var(--color-link)]',
+    'color-reverse-white': 'color-[var(--color-reverse-white)]',
+    'color-reverse-black': 'color-[var(--color-reverse-black)]',
     'gap-space': 'gap-[var(--space)]',
     'p-space': 'p-[var(--space)]',
     'px-space': 'px-[var(--space)]',

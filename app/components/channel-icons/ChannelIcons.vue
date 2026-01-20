@@ -1,80 +1,88 @@
 <script setup lang="ts">
-import { GITHUB } from "@/config/env";
-import BaseIcon from "@/components/BaseIcon.vue";
-import { defineAsyncComponent } from "vue";
-import ShareIcon from "@/components/channel-icons/ShareIcon.vue";
-import WeChat from "@/components/channel-icons/WeChat.vue";
-import Github from "@/components/channel-icons/Github.vue";
+import BaseIcon from '@/components/BaseIcon.vue'
+import { defineAsyncComponent } from 'vue'
+import ShareIcon from '@/components/channel-icons/ShareIcon.vue'
+import WeChat from '@/components/channel-icons/WeChat.vue'
+import Github from '@/components/channel-icons/Github.vue'
 
-withDefaults(defineProps<{
-  type?: 'vertical' | 'horizontal',
-  share?: boolean,
-  wechat?: boolean,
-  github?: boolean,
-}>(), {
-  type: "vertical",
-  share: true,
-  github: true,
-  wechat: true
-})
+withDefaults(
+  defineProps<{
+    type?: 'vertical' | 'horizontal'
+    share?: boolean
+    wechat?: boolean
+    github?: boolean
+  }>(),
+  {
+    type: 'vertical',
+    share: true,
+    github: true,
+    wechat: true,
+  }
+)
 const Dialog = defineAsyncComponent(() => import('@/components/dialog/Dialog.vue'))
 
 let showXhsDialog = $ref(false)
 let showQQDialog = $ref(false)
-
 </script>
 
 <template>
   <div class="center" :class="type === 'vertical' ? 'flex-col gap-1' : 'gap-4'">
+    <Github v-if="github" />
 
-    <Github v-if="github"/>
+    <WeChat v-if="wechat" />
 
-    <WeChat v-if="wechat"/>
-
-    <BaseIcon title="QQ群" @click="showQQDialog = true">
-      <IconUiwQq class="color-red"/>
+    <BaseIcon :title="$t('qq_group')" @click="showQQDialog = true">
+      <IconUiwQq class="color-red" />
     </BaseIcon>
-    <BaseIcon title="小红书" @click="showXhsDialog = true">
-      <IconSimpleIconsXiaohongshu class="color-red-500"/>
+    <BaseIcon :title="$t('xiaohongshu')" @click="showXhsDialog = true">
+      <IconSimpleIconsXiaohongshu class="color-red-500" />
     </BaseIcon>
 
-    <a href="https://x.com/typewords2" target="_blank" rel="noreferrer" aria-label="关注我的 X 账户 typewords2">
-      <BaseIcon title="推特">
-        <IconRiTwitterFill class="color-blue"/>
+    <a
+      href="https://x.com/typewords2"
+      target="_blank"
+      rel="noreferrer"
+      :aria-label="$t('follow_x_account', { x_account: 'typewords2' })"
+    >
+      <BaseIcon :title="$t('twitter')">
+        <IconRiTwitterFill class="color-blue" />
       </BaseIcon>
     </a>
 
-    <a href="mailto:zyronon@163.com" target="_blank" rel="noreferrer" aria-label="发送邮件到 zyronon@163.com">
-      <BaseIcon title="邮箱">
-        <IconMaterialSymbolsMail class="color-blue"/>
+    <a
+      href="mailto:zyronon@163.com"
+      target="_blank"
+      rel="noreferrer"
+      :aria-label="$t('send_email', { email: 'zyronon@163.com' })"
+    >
+      <BaseIcon :title="$t('email')">
+        <IconMaterialSymbolsMail class="color-blue" />
       </BaseIcon>
     </a>
 
-    <ShareIcon v-if="share"/>
+    <ShareIcon v-if="share" />
   </div>
 
-  <Dialog v-model="showXhsDialog" title="小红书">
+  <Dialog v-model="showXhsDialog" :title="$t('xiaohongshu')">
     <div class="w-120 p-6 pt-0">
       <div class="mb-4">
-        关注小红书后，您可以获得开发团队的最新动态和更新内容，反馈您的使用体验和建议，帮助我们改进产品，同时也能够及时了解我们的最新动态和更新内容。
+        {{ $t('xiaohongshu_desc') }}
       </div>
       <div class="text-center">
-        <img src="/imgs/channel/xhs.png" alt="小红书二维码" class="w-70 rounded-xl shadow-lg">
+        <NuxtImg src="/imgs/channel/xhs.png" :alt="$t('xiaohongshu_qrcode')" class="w-70 rounded-xl shadow-lg" />
       </div>
     </div>
   </Dialog>
 
-  <Dialog v-model="showQQDialog" title="QQ 交流群">
+  <Dialog v-model="showQQDialog" :title="$t('qq_group')">
     <div class="w-120 p-6 pt-0">
       <div class="mb-4">
-        <span>加入我们的用户社群后，您可以与我们的开发团队进行沟通，分享您的使用体验和建议，帮助我们改进产品，同时也能够及时了解我们的最新动态和更新内容。</span>
+        <span>{{ $t('community_desc') }}</span>
       </div>
       <div class="text-center">
-        <img src="/imgs/channel/qq.jpg" alt="QQ群二维码" class="w-70 rounded-xl shadow-lg">
+        <NuxtImg src="/imgs/channel/qq.jpg" :alt="$t('qq_qrcode')" class="w-70 rounded-xl shadow-lg" />
       </div>
     </div>
   </Dialog>
-
 </template>
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
